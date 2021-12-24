@@ -4,7 +4,21 @@ image:
 # List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
 tasks:
   - name: "Compile self" # runs during prebuild
-    init: "clear && bashbox build --release"
+    init: bashbox build --release
+  - name: Arch
+    command: docker run -it archlinux
+  - name: CentOS
+    command: docker run -it centos
+  - name: Debian
+    command: docker run -it debian
+  - name: Fedora
+    command: docker run -it fedora
+  - name: Opensuse
+    command: docker run -it opensuse
+  - name: Ubuntu
+    command: docker run -it ubuntu
+  - name: Void
+    command: docker run -it voidlinux/voidlinux
 
 vscode:
   extensions:
