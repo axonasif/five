@@ -4,7 +4,9 @@ image:
 # List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
 tasks:
   - name: "Compile self" # runs during prebuild
-    init: bashbox build --release
+    init: |
+      for _image in archlinux centos debian fedora opensuse ubuntu "voidlinux/voidlinux"; do docker pull $_image; done
+      bashbox build --release
   - name: Arch
     command: docker run -it archlinux
   - name: CentOS
