@@ -5,6 +5,7 @@ image:
 tasks:
   - name: "Compile self" # runs during prebuild
     init: |
+      echo $DOCKER_ROOT
       for _image in archlinux centos debian fedora opensuse ubuntu "voidlinux/voidlinux"; do docker pull $_image; done
       bashbox build --release
   - name: Arch
