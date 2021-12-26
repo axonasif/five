@@ -6,22 +6,24 @@ tasks:
   - name: "Compile self" # runs during prebuild
     init: |
       echo $DOCKER_ROOT
-      for _image in archlinux centos debian fedora "opensuse/leap" ubuntu "voidlinux/voidlinux"; do docker pull $_image; done
+      for _image in archlinux centos debian fedora "opensuse/leap" ubuntu "voidlinux/voidlinux"; do
+        docker pull $_image;
+      done
       bashbox build --release
   - name: Arch
-    command: docker run -it archlinux
+    command: docker run -it archlinux bash -c 'pacman -Sy; exec $0 -l'
   - name: CentOS
-    command: docker run -it centos
+    command: docker run -it centos bash -c 'dnf check-update; exec $0 -l'
   - name: Debian
-    command: docker run -it debian
+    command: docker run -it debian bash -c 'apt-get update; exec $0 -l'
   - name: Fedora
-    command: docker run -it fedora
+    command: docker run -it fedora bash -c 'dnf check-update; exec $0 -l'
   - name: Opensuse
-    command: docker run -it opensuse/leap
+    command: docker run -it opensuse/leap bash -c 'zypper refresh; exec $0 -l'
   - name: Ubuntu
-    command: docker run -it ubuntu
+    command: docker run -it ubuntu bash -c 'apt-get update; exec $0 -l'
   - name: Void
-    command: docker run -it voidlinux/voidlinux
+    command: docker run -it voidlinux/voidlinux sh -c 'xbps-install -Sy'
 
 vscode:
   extensions:

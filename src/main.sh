@@ -1,7 +1,7 @@
 #####################
 ### Public functions
 #####################
-use variables;
+# use variables;
 # use utils;
 use std::print::log;
 use std::print::helpgen;
@@ -10,7 +10,8 @@ use std::term::colors;
 use argbash::common;
 ### Private functions
 #####################
-use subcommand;
+# use subcommand;
+use packages;
 
 function print_help() {
 
@@ -118,6 +119,9 @@ function main() {
 	# test "$_arg_verbose" == on && test "$_arg_quiet" == off && {
 		# set -x;
 	# }
+
+
+	# bash
 
 	#####################
 	### Main execution
