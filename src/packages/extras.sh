@@ -1,37 +1,34 @@
-{ local GROUP="extras";
+local GROUP="EXTRAS";
 
-# set +u
+# Needs review
 declare -A build_essential=(
-	[arch]="$_pkg"
-	# [centos]="$_pkg"
-	# [debian]="$_pkg"
-	# [fedora]="$_pkg"
-	# [opensuse]="$_pkg"
-	# [ubuntu]="$_pkg"
-	# [void]="$_pkg"
+	[arch]="base-devel"
+	[centos]='dnf groupinstall -y "Development Tools"||'
+	[debian]="build-essential"
+	[fedora]='dnf groupinstall -y "Development Tools"||'
+	[opensuse]='zypper install -y -t pattern devel_basis||'
+	[ubuntu]="build-essential"
+	[void]="base-devel"
 )
 
-echo "${build_essential[arch]}"
-exit
-
 declare -A dpkg_dev=(
-	[arch]="$_pkg"
-	[centos]="$_pkg"
-	[debian]="$_pkg"
-	[fedora]="$_pkg"
-	[opensuse]="$_pkg"
-	[ubuntu]="$_pkg"
-	[void]="$_pkg"
+	[arch]=""
+	[centos]=""
+	[debian]="dpkg-dev"
+	[fedora]=""
+	[opensuse]=""
+	[ubuntu]="dpkg-dev"
+	[void]=""
 )
 
 declare -A imagemagick=(
-	[arch]="$_pkg"
-	[centos]="$_pkg"
-	[debian]="$_pkg"
-	[fedora]="$_pkg"
-	[opensuse]="$_pkg"
-	[ubuntu]="$_pkg"
-	[void]="$_pkg"
+	[arch]="imagemagick"
+	[centos]="imagemagick"
+	[debian]="imagemagick"
+	[fedora]="imagemagick"
+	[opensuse]="imagemagick"
+	[ubuntu]="imagemagick"
+	[void]="imagemagick"
 )
 
-unset GROUP; }
+unset GROUP;

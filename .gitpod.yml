@@ -5,7 +5,6 @@ image:
 tasks:
   - name: "Compile self" # runs during prebuild
     init: |
-      echo $DOCKER_ROOT
       for _image in archlinux centos debian fedora "opensuse/leap" ubuntu "voidlinux/voidlinux"; do
         docker pull $_image;
       done
@@ -23,7 +22,7 @@ tasks:
   - name: Ubuntu
     command: docker run -it ubuntu bash -c 'apt-get update; exec $0 -l'
   - name: Void
-    command: docker run -it voidlinux/voidlinux sh -c 'xbps-install -Sy'
+    command: docker run -it voidlinux/voidlinux sh -c 'xbps-install -Sy; exec $0 -l'
 
 vscode:
   extensions:

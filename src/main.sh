@@ -120,9 +120,6 @@ function main() {
 		# set -x;
 	# }
 
-
-	# bash
-
 	#####################
 	### Main execution
 	#####################
