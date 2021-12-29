@@ -1,16 +1,16 @@
 #####################
 ### Public functions
 #####################
-# use variables;
+use variables;
 # use utils;
 use std::print::log;
 use std::print::helpgen;
 use std::term::colors;
-# use std::io::file::check_newline;
+use std::io::file::check_newline;
 use argbash::common;
 ### Private functions
 #####################
-# use subcommand;
+use subcommand;
 use packages;
 
 function print_help() {
@@ -18,7 +18,7 @@ function print_help() {
 
 	println::helpgen "${_self_name^^}" \
 		--short-desc "\
-Wannabe bash compiler\
+Run multiple linux distros in Gitpod\
 " \
 		\
 		--usage "\
@@ -29,16 +29,12 @@ ${_self_name} [OPTIONAL-OPTIONS] [SUBCOMMAND] <subcommand-arguments>\
 -V, --version<^>Print version info and exit
 -v, --verbose<^>Use very verbose output
 -q, --quiet<^>No output printed to stdout
---offline<^>Run without checking for update
 -h, --help<^>Prints this help information\
 " \
 		\
 		--subcommands "\
-new<^>${SUBCOMMANDS_DESC[1]}
-build<^>${SUBCOMMANDS_DESC[2]}
-clean<^>${SUBCOMMANDS_DESC[3]}
-install<^>${SUBCOMMANDS_DESC[4]}
-selfinstall<^>${SUBCOMMANDS_DESC[5]}\
+parallel<^>${SUBCOMMANDS_DESC[1]}
+compile<^>${SUBCOMMANDS_DESC[2]}
 " \
 		\
 		--footer-msg "\
@@ -57,7 +53,6 @@ function main() {
 	_self_name="${___self##*/}";
 	_arg_verbose=off;
 	_arg_quiet=off;
-	_arg_offline=off;
 
 	#####################
 	### Start of arg parse
@@ -76,11 +71,8 @@ function main() {
 				--verbose | -v)
 					_arg_verbose=on;
 					;;
-				--quiet | -q)``
+				--quiet | -q)
 					_arg_quiet=on;
-					;;
-				--offline)
-					_arg_offline=on;
 					;;
 				--version | -V)
 					echo "$___self_VERSION";
@@ -116,16 +108,16 @@ function main() {
 	### Setup options
 	#####################
 	## Verbose
-	# test "$_arg_verbose" == on && test "$_arg_quiet" == off && {
-		# set -x;
-	# }
+	# if test "$_arg_verbose" == on && test "$_arg_quiet" == off; then {
+	# 	set -x;
+	# } fi
 
 	#####################
 	### Main execution
 	#####################
 	_subcommand_argv="${1:-}" && shift || true;
 	case "$_subcommand_argv" in
-		new | run | build | clean | install | selfinstall)
+		parallel | compile)
 			subcommand::$_subcommand_argv "$@";
 			;;
 		*)

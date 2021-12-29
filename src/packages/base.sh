@@ -1,13 +1,12 @@
 local GROUP="base";
 
-## FROM buildpack-deps:focal
 declare -A curl=(
-	[arch]="$_pkg"
-	[centos]="$_pkg"
-	[debian]="$_pkg"
-	[fedora]="$_pkg"
-	[opensuse]="$_pkg"
-	[ubuntu]="$_pkg"
+	[arch]="curl"
+	[centos]="curl"
+	[debian]="curl"
+	[fedora]="curl"
+	[opensuse]="curl"
+	[ubuntu]="curl"
 	[void]="$_pkg"
 )
 

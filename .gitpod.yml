@@ -10,19 +10,19 @@ tasks:
       done
       bashbox build --release
   - name: Arch
-    command: docker run -it archlinux bash -c 'pacman -Sy; exec $0 -l'
+    command: docker run --name archlinux -it archlinux bash -c 'pacman -Sy; exec $0 -l'
   - name: CentOS
-    command: docker run -it centos bash -c 'dnf check-update; exec $0 -l'
+    command: docker run --name centos -it centos bash -c 'dnf check-update; exec $0 -l'
   - name: Debian
-    command: docker run -it debian bash -c 'apt-get update; exec $0 -l'
+    command: docker run --name debian -it debian bash -c 'apt-get update; exec $0 -l'
   - name: Fedora
-    command: docker run -it fedora bash -c 'dnf check-update; exec $0 -l'
+    command: docker run --name fedora -it fedora bash -c 'dnf check-update; exec $0 -l'
   - name: Opensuse
-    command: docker run -it opensuse/leap bash -c 'zypper refresh; exec $0 -l'
+    command: docker run --name opensuse_leap -it opensuse/leap bash -c 'zypper refresh; exec $0 -l'
   - name: Ubuntu
-    command: docker run -it ubuntu bash -c 'apt-get update; exec $0 -l'
+    command: docker run --name ubuntu -it ubuntu bash -c 'apt-get update; exec $0 -l'
   - name: Void
-    command: docker run -it voidlinux/voidlinux sh -c 'xbps-install -Sy; exec $0 -l'
+    command: docker run --name voidlinux_voidlinux -it voidlinux/voidlinux sh -c 'xbps-install -Sy; exec $0 -l'
 
 vscode:
   extensions:

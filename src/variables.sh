@@ -1,20 +1,24 @@
 readonly _multitux_meta_name="Bashbox.meta";
-# readonly _usemols_meta_name="Usemols.meta"
+# readonly _usemols_meta_name="Usemols.meta";
 readonly _src_dir_name="src";
-readonly _multitux_home="${HOME:-"${0%/*}"}/.bashbox" && mkdir -p "$_multitux_home";
+readonly _multitux_home="${HOME:-"${0%/*}"}/.multitux" && mkdir -p "$_multitux_home";
 readonly _multitux_registrydir="$_multitux_home/registry" && mkdir -p "$_multitux_registrydir";
-readonly _multitux_bindir="$_multitux_home/bin" && mkdir -p "$_multitux_bindir";
-readonly _multitux_posix_envfile="$_multitux_home/env";
-readonly _multitux_fish_envfile="$_multitux_home/env.fish";
-readonly _multitux_compat_var_name="BASHBOX_COMPAT";
+
 readonly SUBCOMMANDS_DESC=(
 	""
-	"Create a new bashbox project"
-	"Compile a bashbox project"
-	"Cleanup target/ directories"
-	"Install a bashbox project from repo"
-	"Install bashbox into PATH"
+	"Integrate a distro into your host environment"
+	"Create Dockerfile for one of the supported distros"
 );
+
+readonly _supported_distros=(
+	arch
+	centos
+	debian
+	fedora
+	opensuse
+	ubuntu
+	void
+)
 
 # Exports
 _var_exports=(
@@ -39,3 +43,5 @@ for _var in "${_var_exports[@]}"; do {
 # 		} fi
 # 	} done
 # ) &
+
+okay so yeah my muscle memory is hecking me hard r8n because these keys are too big for them damn it !!!!!
