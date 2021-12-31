@@ -7,99 +7,99 @@ declare -A curl=(
 	[fedora]="curl"
 	[opensuse]="curl"
 	[ubuntu]="curl"
-	[void]="$_pkg"
+	[void]="curl"
 )
 
 declare -A ca__certificates=(
-	[arch]="$_pkg"
-	[centos]="$_pkg"
-	[debian]="$_pkg"
-	[fedora]="$_pkg"
-	[opensuse]="$_pkg"
-	[ubuntu]="$_pkg"
-	[void]="$_pkg"
+	[arch]="ca-certificates"
+	[centos]="ca-certificates"
+	[debian]="ca-certificates"
+	[fedora]="ca-certificates"
+	[opensuse]="ca-certificates"
+	[ubuntu]="ca-certificates"
+	[void]="ca-certificates"
 )
 
 declare -A netbase=(
 	[arch]=""
 	[centos]=""
-	[debian]="$_pkg"
+	[debian]="netbase"
 	[fedora]=""
 	[opensuse]=""
-	[ubuntu]="$_pkg"
+	[ubuntu]="netbase"
 	[void]="iptables" # Provides /etc/ethertypes
 )
 
 rev
 
 declare -A wget=(
-	[arch]="$_pkg"
-	[centos]="$_pkg"
-	[debian]="$_pkg"
-	[fedora]="$_pkg"
-	[opensuse]="$_pkg"
-	[ubuntu]="$_pkg"
-	[void]="$_pkg"
+	[arch]="wget"
+	[centos]="wget"
+	[debian]="wget"
+	[fedora]="wget"
+	[opensuse]="wget"
+	[ubuntu]="wget"
+	[void]="wget"
 )
 
 declare -A tzdata=(
-	[arch]="$_pkg"
-	[centos]="$_pkg"
-	[debian]="$_pkg"
-	[fedora]="$_pkg"
-	[opensuse]="$_pkg"
-	[ubuntu]="$_pkg"
-	[void]="$_pkg"
+	[arch]="tzdata"
+	[centos]="tzdata"
+	[debian]="tzdata"
+	[fedora]="tzdata"
+	[opensuse]="timezone"
+	[ubuntu]="tzdata"
+	[void]="tzdata"
 )
 
 declare -A gnupg=(
-	[arch]="$_pkg"
-	[centos]="$_pkg"
-	[debian]="$_pkg"
-	[fedora]="$_pkg"
-	[opensuse]="$_pkg"
-	[ubuntu]="$_pkg"
-	[void]="$_pkg"
+	[arch]="gnupg"
+	[centos]="gnupg"
+	[debian]="gnupg"
+	[fedora]="gnupg"
+	[opensuse]="gpg2"
+	[ubuntu]="gnupg"
+	[void]="gnupg"
 )
 
 declare -A openssh_client=(
-	[arch]="$_pkg"
-	[centos]="$_pkg"
-	[debian]="$_pkg"
-	[fedora]="$_pkg"
-	[opensuse]="$_pkg"
-	[ubuntu]="$_pkg"
-	[void]="$_pkg"
+	[arch]="openssh"
+	[centos]="openssh"
+	[debian]="openssh-client"
+	[fedora]="openssh"
+	[opensuse]="openssh"
+	[ubuntu]="openssh-client"
+	[void]="openssh"
 )
 
 declare -A procps=(
-	[arch]="$_pkg"
-	[centos]="$_pkg"
-	[debian]="$_pkg"
-	[fedora]="$_pkg"
-	[opensuse]="$_pkg"
-	[ubuntu]="$_pkg"
-	[void]="$_pkg"
+	[arch]="procps-ng"
+	[centos]="procps-ng"
+	[debian]="procps"
+	[fedora]="procps-ng"
+	[opensuse]="procps"
+	[ubuntu]="procps"
+	[void]="procps-ng"
 )
 
 declare -A bzip2=(
-	[arch]="$_pkg"
-	[centos]="$_pkg"
-	[debian]="$_pkg"
-	[fedora]="$_pkg"
-	[opensuse]="$_pkg"
-	[ubuntu]="$_pkg"
-	[void]="$_pkg"
+	[arch]="bzip2"
+	[centos]="bzip2"
+	[debian]="bzip2"
+	[fedora]="bzip2"
+	[opensuse]="bzip2"
+	[ubuntu]="bzip2"
+	[void]="bzip2"
 )
 
 declare -A file=(
-	[arch]="$_pkg"
-	[centos]="$_pkg"
-	[debian]="$_pkg"
-	[fedora]="$_pkg"
-	[opensuse]="$_pkg"
-	[ubuntu]="$_pkg"
-	[void]="$_pkg"
+	[arch]="file"
+	[centos]="file"
+	[debian]="file"
+	[fedora]="file"
+	[opensuse]="file"
+	[ubuntu]="file"
+	[void]="file"
 )
 
 declare -A unzip=(
