@@ -3,24 +3,24 @@
 local GROUP="tools";
 
 declare -A dirmngr=(
-	[arch]="$_pkg"
-	[centos]="$_pkg"
-	[debian]="$_pkg"
-	[fedora]="$_pkg"
-	[opensuse]="$_pkg"
-	[ubuntu]="$_pkg"
-	[void]="$_pkg"
+	[arch]="gnupg"
+	[centos]="gnupg2"
+	[debian]="dirmngr"
+	[fedora]="gnupg2"
+	[opensuse]="dirmngr"
+	[ubuntu]="dirmngr"
+	[void]="gnupg"
 )
 
 declare -A bzr=(
-	[arch]="$_pkg"
-	[centos]="$_pkg"
-	[debian]="$_pkg"
-	[fedora]="$_pkg"
-	[opensuse]="$_pkg"
-	[ubuntu]="$_pkg"
-	[void]="$_pkg"
-)
+	[arch]="yay -Sy bzr|"
+	[centos]="bzr" # Review
+	[debian]="bzr"
+	[fedora]="bzr" # Review
+	[opensuse]="bzr"
+	[ubuntu]="bzr"
+	[void]="bzr"
+) # http://wiki.bazaar.canonical.com/DistroDownloads
 
 declare -A git=(
 	[arch]="$_pkg"

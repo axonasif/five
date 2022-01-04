@@ -14,7 +14,7 @@ set -u;
 _args=("$@");
 
 for _pkg in "${_args[@]}"; do {
-	for _distro in "${DISTRO:-}" archlinux centos debian fedora "opensuse/leap" ubuntu "voidlinux/voidlinux"; do
+	for _distro in "${DISTRO:-archlinux}" centos debian fedora "opensuse/leap" ubuntu "voidlinux/voidlinux"; do
 		printf ">>>> Checking %s on %s .... >>>> " "$_pkg" "$_distro";
 
 		case "$_distro" in
