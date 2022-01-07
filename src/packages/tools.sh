@@ -33,23 +33,23 @@ declare -A git=(
 )
 
 declare -A git_lfs=(
-	[arch]="$_pkg"
-	[centos]="$_pkg"
-	[debian]="$PKG|add-apt-repository -y ppa:git-core/ppa && git lfs install --system"
-	[fedora]="$_pkg"
-	[opensuse]="$_pkg"
-	[ubuntu]="$PKG|add-apt-repository -y ppa:git-core/ppa && git lfs install --system"
-	[void]="$_pkg"
-)
+	[arch]="git-lfs"
+	[centos]="git-lfs"
+	[debian]="git-lfs"
+	[fedora]="git-lfs"
+	[opensuse]="git-lfs"
+	[ubuntu]="git-lfs"
+	[void]="git-lfs"
+) # Review `add-apt-repository -y ppa:git-core/ppa && git lfs install --system`
 
 declare -A mercurial=(
-	[arch]="$_pkg"
-	[centos]="$_pkg"
-	[debian]="$_pkg"
-	[fedora]="$_pkg"
-	[opensuse]="$_pkg"
-	[ubuntu]="$_pkg"
-	[void]="$_pkg"
+	[arch]="mercurial"
+	[centos]="mercurial"
+	[debian]="mercurial"
+	[fedora]="mercurial"
+	[opensuse]="mercurial"
+	[ubuntu]="mercurial"
+	[void]="mercurial"
 )
 
 declare -A subversion=(
