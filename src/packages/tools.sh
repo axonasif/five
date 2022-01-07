@@ -14,22 +14,22 @@ declare -A dirmngr=(
 
 declare -A bzr=(
 	[arch]="yay -Sy bzr|"
-	[centos]="bzr" # Review
+	[centos]="" # Review #TODO
 	[debian]="bzr"
-	[fedora]="bzr" # Review
+	[fedora]="" # Review #TODO
 	[opensuse]="bzr"
 	[ubuntu]="bzr"
 	[void]="bzr"
 ) # http://wiki.bazaar.canonical.com/DistroDownloads
 
 declare -A git=(
-	[arch]="$_pkg"
-	[centos]="$_pkg"
-	[debian]="$_pkg"
-	[fedora]="$_pkg"
-	[opensuse]="$_pkg"
-	[ubuntu]="$_pkg"
-	[void]="$_pkg"
+	[arch]="git"
+	[centos]="git"
+	[debian]="git"
+	[fedora]="git"
+	[opensuse]="git"
+	[ubuntu]="git"
+	[void]="git"
 )
 
 declare -A git_lfs=(
@@ -53,23 +53,23 @@ declare -A mercurial=(
 )
 
 declare -A subversion=(
-	[arch]="$_pkg"
-	[centos]="$_pkg"
-	[debian]="$_pkg"
-	[fedora]="$_pkg"
-	[opensuse]="$_pkg"
-	[ubuntu]="$_pkg"
-	[void]="$_pkg"
+	[arch]="subversion"
+	[centos]="subversion"
+	[debian]="subversion"
+	[fedora]="subversion"
+	[opensuse]="subversion"
+	[ubuntu]="subversion"
+	[void]="subversion"
 )
 
 declare -A jq=(
-	[arch]="$_pkg"
-	[centos]="$_pkg"
-	[debian]="$_pkg"
-	[fedora]="$_pkg"
-	[opensuse]="$_pkg"
-	[ubuntu]="$_pkg"
-	[void]="$_pkg"
+	[arch]="jq"
+	[centos]="jq"
+	[debian]="jq"
+	[fedora]="jq"
+	[opensuse]="jq"
+	[ubuntu]="jq"
+	[void]="jq"
 )
 
 unset GROUP;
