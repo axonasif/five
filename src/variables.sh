@@ -43,5 +43,3 @@ for _var in "${_var_exports[@]}"; do {
 # 		} fi
 # 	} done
 # ) &
-
-okay so yeah my muscle memory is hecking me hard r8n because these keys are too big for them damn it !!!!!

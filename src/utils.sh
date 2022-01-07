@@ -1,0 +1,19 @@
+function wrap_syndoc() {
+	if test "$_type" == "dockerfile"; then {
+		printf "$@\n";
+	} elif test "$_type" == "bashscript"; then {
+		local _line && while read -r _line; do 
+			case "${_line%% *}" in
+				RUN)
+					printf "${_line#* }\n";
+				;;
+				ENV)
+					printf 'export "%s"\n' "${_line#* }";
+				;;
+				USER)
+					true 'TODO: NEEDS WORK'
+				;;
+			esac
+		done <<<"$@";
+	} fi
+}

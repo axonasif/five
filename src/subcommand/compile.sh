@@ -1,10 +1,11 @@
-function subcommand::new()
+function subcommand::compile()
 {
 	# THE DEFAULTS INITIALIZATION - POSITIONALS
 	_positionals=()
 	_arg_path=
 	# THE DEFAULTS INITIALIZATION - OPTIONALS
 	_arg_distro=
+	_arg_type=
 	# _arg_template=
 
 
@@ -58,6 +59,14 @@ ${_self_name} ${_subcommand_argv} --distro=cakebaker foo/bakery${RC}\
 					;;
 				--distro=*)
 					_arg_distro="${_key##--distro=}"
+					;;
+				--type|-t)
+					test $# -lt 2 && log::error "Missing value for the optional argument '$_key'." 1 || exit;
+					_arg_type="$2"
+					shift
+					;;
+				--type=*)
+					_arg_type="${_key##--type=}"
 					;;
 				-h|--help)
 					print_help
@@ -113,10 +122,20 @@ ${_self_name} ${_subcommand_argv} --distro=cakebaker foo/bakery${RC}\
 	## : "${_arg_template:="core"}"
 	_arg_distro="$(tr -d '[:space:]' <<<"${_arg_distro,,}")" # Make lowercase and trim whitespaces
 
-	## When the distro dir already exists
+	## When the distro dockerfile already exists
 	if test -e "$_arg_path"; then
-		log::error "Destination \`$_arg_path\` already exists." \
-		"\t  You may either remove that project dir or use a different path for setup." 1 || exit;
+		log::error "A file as \`$_arg_path\` already exists." \
+		"\t  Use a different path or name" 1 || exit;
 	fi
+
+	## Verify if the specified distro is valid
+	if [[ ! "${_supported_distros[@]}" =~ (^| )${_arg_distro%%=*}($| ) ]]; then {
+		log::error "$_arg_distro is not supported" 1 || exit;
+	} fi
+
+	{
+
+	}
+
 
 }

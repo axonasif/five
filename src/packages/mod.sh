@@ -2,6 +2,7 @@
 function declare() {
 	local args=("$@");
 	# local _pkg="${args[1]//__/-}";
+	
 	local _pkg="${args[1]}";
 	local -n _group="${GROUP^^}_GROUP" && _group+=("${_pkg}"); # Assign package name to group
 	ALL_PACKAGES+=("${_pkg}"); # Save all packages separately
