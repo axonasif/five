@@ -1,5 +1,14 @@
 local GROUP="base";
 
+declare -A bash=(
+	[arch]="bash"
+	[centos]="bash"
+	[fedora]="bash"
+	[opensuse]="bash"
+	[ubuntu]="bash"
+	[void]="bash"
+)
+
 declare -A curl=(
 	[arch]="curl"
 	[centos]="curl"
@@ -30,7 +39,6 @@ declare -A netbase=(
 	[void]="iptables" # Provides /etc/ethertypes
 )
 
-rev
 
 declare -A wget=(
 	[arch]="wget"

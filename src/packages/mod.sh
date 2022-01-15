@@ -27,7 +27,7 @@ function declare() {
 ### From gitpod/workspace-images/base
 # TODO: Needs more work from the source image
 
-# use base;
-# use tools;
-# use lang_tools;
+use base;
+use tools;
+use lang_tools;
 use extras;
