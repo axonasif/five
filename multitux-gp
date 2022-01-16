@@ -1,5 +1,5 @@
 #!/data/data/com.termux/files/usr/bin/env bash
-main@bashbox%1235 () 
+main@bashbox%6559 () 
 { 
     function process::self::exit () 
     { 
@@ -50,7 +50,7 @@ main@bashbox%1235 ()
     shopt -s inherit_errexit expand_aliases;
     ___self="$0";
     ___self_PID="$$";
-    ___MAIN_FUNCNAME="main@bashbox%1235";
+    ___MAIN_FUNCNAME="main@bashbox%6559";
     ___self_NAME="multitux-gp";
     ___self_CODENAME="multitux-gp";
     ___self_AUTHORS=("AXON <axonasif@gmail.com>");
@@ -64,6 +64,7 @@ main@bashbox%1235 ()
     readonly _multitux_registrydir="$_multitux_home/registry" && mkdir -p "$_multitux_registrydir";
     readonly SUBCOMMANDS_DESC=("" "Integrate a distro into your host environment" "Create Dockerfile for one of the supported distros");
     readonly _supported_distros=(archlinux centos debian fedora opensuse ubuntu voidlinux);
+    readonly -A _distro_image=(["${_supported_distros[0]}"]="${_supported_distros[0]}" ["${_supported_distros[1]}"]="${_supported_distros[1]}" ["${_supported_distros[2]}"]="${_supported_distros[2]}" ["${_supported_distros[3]}"]="${_supported_distros[3]}" ["${_supported_distros[4]}"]="opensuse/leap" ["${_supported_distros[5]}"]="${_supported_distros[5]}" ["${_supported_distros[3]}"]="voidlinux/voidlinux");
     _var_exports=(_multitux_registrydir);
     for _var in "${_var_exports[@]}";
     do
@@ -340,7 +341,19 @@ ${_self_name} ${_subcommand_argv} --distro=cakebaker foo/bakery${RC}"
         : "${_arg_distro:="ubuntu"}";
         if test -e "$_arg_path"; then
             { 
-                log::error "A dir as \`$_arg_path\` already exists." "\t  Use a different path or name" 1 || exit
+                log::error "A dir as \`$_arg_path\` already exists." || :;
+                log::info "Do you want to overwrite it? [y/N] \c";
+                local _ans && read -n1 -r _ans;
+                if test "${_ans,,}" == y; then
+                    { 
+                        rm -r "$_arg_path";
+                        mkdir -p "$_arg_path"
+                    };
+                else
+                    { 
+                        exit 1
+                    };
+                fi
             };
         else
             { 
@@ -421,17 +434,53 @@ ${_self_name} ${_subcommand_argv} --distro=cakebaker foo/bakery${RC}"
                 eval "function ${_keyword}() { dockerfile::wrapper \"\$@\"; }"
             };
         done;
+        function pkgman::perform_tasks () 
         { 
+            declare -r _pkgs=("${@}");
+            declare -r _div='\<#\>';
+            if [[ "${_pkgs[*]}" =~ ${_div} ]]; then
+                { 
+                    local _pkg;
+                    for _pkg in "${_pkgs[@]}";
+                    do
+                        { 
+                            local _before="${_pkg%%${_div}*}";
+                            local _name="$(
+				if [[ ! "$_pkg" =~ ${_div} ]]; then {
+					printf "$_pkg\n";
+				} elif [[ "$_pkg" =~ ${_div}.*${_div} ]]; then {
+					printf "${BASH_REMATCH//${_div}/}\n"
+				} fi
+			)";
+                            local _after="${_pkg##*<#>}";
+                            _pkg_names+=("$_name")
+                        };
+                    done
+                };
+            else
+                { 
+                    declare -gn _pkg_names=_pkgs
+                };
+            fi
+        };
+        function pkgman::archlinux () 
+        { 
+            pkgman::perform_tasks "${@}";
+            pacman -Syyu --noconfirm --noprogressbar --needed "${_pkg_names[@]}";
+            pacman -Scc --noconfirm
+        };
+        { 
+            printf 'FROM %s:latest\n' "${_distro_image[$_arg_distro]}";
             ENV LANG=en_US.UTF-8;
             COPY install-packages /usr/bin/;
-            printf '%s\n' "$(declare -f 'pkgman::perform_tasks')" "$(declare -f "pkgman::$_arg_distro")" "pkgman::$_arg_distro \"\$@\"" > "$_arg_path/install-packages";
+            printf '%s\n' "$(builtin declare -f 'pkgman::perform_tasks')" "$(builtin declare -f "pkgman::$_arg_distro")" "pkgman::$_arg_distro \"\$@\"" > "$_arg_path/install-packages";
             RUN <<EOF
 install-packages ${_pkg_list[@]} 	&& useradd -l -u 33333 -G sudo -md /home/gitpod -s /bin/bash -p gitpod gitpod     	&& sed -i.bak -e 's/%sudo\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%sudo ALL=NOPASSWD:ALL/g' /etc/sudoers 	&& printf '%s\n' "PS1='\[]0;\u \w\]\[[01;32m\]\u\[[00m\] \[[01;34m\]\w\[[00m\] \$ '" 		'source "\$HOME/.bashrc.d"/*' | sudo -u gitpod tee -a "/home/gitpod/.bashrc" 	&& sudo -u gitpod mkdir -m0755 -p /home/gitpod/.bashrc.d
 EOF
 
             ENV HOME=/home/gitpod;
             WORKDIR \$HOME
-        }
+        } > "$_arg_path/Dockerfile"
     };
     function declare () 
     { 
@@ -500,6 +549,7 @@ EOF
     declare -A dpkg_dev=([archlinux]="" [centos]="" [debian]="dpkg-dev" [fedora]="" [opensuse]="" [ubuntu]="dpkg-dev" [voidlinux]="");
     declare -A imagemagick=([archlinux]="imagemagick" [centos]="imagemagick" [debian]="imagemagick" [fedora]="imagemagick" [opensuse]="imagemagick" [ubuntu]="imagemagick" [voidlinux]="imagemagick");
     unset GROUP;
+    unset -f declare;
     function print_help () 
     { 
         println::helpgen "${_self_name^^}" --short-desc "Run multiple linux distros in Gitpod" --usage "${_self_name} [OPTIONAL-OPTIONS] [SUBCOMMAND] <subcommand-arguments>" --options-desc "-V, --version<^>Print version info and exit
@@ -562,4 +612,4 @@ For bugreports: $___self_REPOSITORY"
     wait;
     exit
 }
-main@bashbox%1235 "$@";
+main@bashbox%6559 "$@";

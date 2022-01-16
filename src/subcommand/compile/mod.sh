@@ -124,8 +124,15 @@ ${_self_name} ${_subcommand_argv} --distro=cakebaker foo/bakery${RC}\
 
 	## When the distro dockerfile already exists
 	if test -e "$_arg_path"; then {
-		log::error "A dir as \`$_arg_path\` already exists." \
-		"\t  Use a different path or name" 1 || exit;
+		log::error "A dir as \`$_arg_path\` already exists." || :;
+		log::info "Do you want to overwrite it? [y/N] \c";
+		local _ans && read -n1 -r _ans;
+		if test "${_ans,,}" == y; then {
+			rm -r "$_arg_path";
+			mkdir -p "$_arg_path";
+		} else {
+			exit 1;
+		} fi
 	} else {
 		mkdir -p "$_arg_path";
 	} fi
@@ -146,9 +153,10 @@ ${_self_name} ${_subcommand_argv} --distro=cakebaker foo/bakery${RC}\
 
 	### Pulling other modules
 	use dockerfile_wrappers;
+	use pkgman_wrappers;
 	{
 		use box::dockerfile;
 
-	}
+	} 1> "$_arg_path/Dockerfile"
 
 }

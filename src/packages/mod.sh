@@ -31,3 +31,5 @@ use base;
 use tools;
 use lang_tools;
 use extras;
+
+unset -f declare; # To make sure we don't mess up other declare calls

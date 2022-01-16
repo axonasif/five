@@ -19,6 +19,15 @@ readonly _supported_distros=(
 	ubuntu
 	voidlinux
 )
+readonly -A _distro_image=(
+	["${_supported_distros[0]}"]="${_supported_distros[0]}"
+	["${_supported_distros[1]}"]="${_supported_distros[1]}"
+	["${_supported_distros[2]}"]="${_supported_distros[2]}"
+	["${_supported_distros[3]}"]="${_supported_distros[3]}"
+	["${_supported_distros[4]}"]="opensuse/leap"
+	["${_supported_distros[5]}"]="${_supported_distros[5]}"
+	["${_supported_distros[3]}"]="voidlinux/voidlinux"
+)
 
 # Exports
 _var_exports=(
