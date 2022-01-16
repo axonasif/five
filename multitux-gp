@@ -1,0 +1,558 @@
+#!/data/data/com.termux/files/usr/bin/env bash
+main@bashbox%28519 () 
+{ 
+    function process::self::exit () 
+    { 
+        local _r=$?;
+        kill -USR1 "$___self_PID";
+        exit $_r
+    };
+    function process::self::forcekill () 
+    { 
+        exec 2> /dev/null;
+        kill -9 "$___self_PID"
+    };
+    function log::error () 
+    { 
+        local _retcode="${2:-$?}";
+        local _exception_line="$1";
+        local _source="${BB_ERR_SOURCE:-"${BASH_SOURCE[-1]}"}";
+        if [[ ! "$_exception_line" == "("*")" ]]; then
+            { 
+                echo -e "[!!!] \033[1;31merror\033[0m[$_retcode]: ${_source##*/}[$BASH_LINENO]: ${BB_ERR_MSG:-"$_exception_line"}" 1>&2;
+                if test -v BB_ERR_MSG; then
+                    { 
+                        echo -e "STACK TRACE: (TOKEN: $_exception_line)" 1>&2;
+                        local -i _frame=0;
+                        local _treestack='|--';
+                        local _line _caller _source;
+                        while read -r _line _caller _source < <(caller "$_frame"); do
+                            { 
+                                echo "$_treestack ${_caller} >> ${_source##*/}::${_line}" 1>&2;
+                                _frame+=1;
+                                _treestack+='--'
+                            };
+                        done
+                    };
+                fi
+            };
+        else
+            { 
+                echo -e "[!!!] \033[1;31merror\033[0m[$_retcode]: ${_source##*/}[$BASH_LINENO]: SUBSHELL EXITED WITH NON-ZERO STATUS" 1>&2
+            };
+        fi;
+        return "$_retcode"
+    };
+    \command \unalias -a || exit;
+    trap 'exit' USR1;
+    trap 'BB_ERR_MSG="UNCAUGHT EXCEPTION" log::error "$BASH_COMMAND" || process::self::exit' ERR;
+    set -eEuT -o pipefail;
+    shopt -s inherit_errexit expand_aliases;
+    ___self="$0";
+    ___self_PID="$$";
+    ___MAIN_FUNCNAME="main@bashbox%28519";
+    ___self_NAME="multitux-gp";
+    ___self_CODENAME="multitux-gp";
+    ___self_AUTHORS=("AXON <axonasif@gmail.com>");
+    ___self_VERSION="1.0";
+    ___self_DEPENDENCIES=(std::0.1.5 argbash::0.1.0);
+    ___self_REPOSITORY="https://github.com/axonasif/multitux-gp";
+    ___self_BASHBOX_COMPAT="0.3.7~";
+    readonly _multitux_meta_name="Bashbox.meta";
+    readonly _src_dir_name="src";
+    readonly _multitux_home="${HOME:-"${0%/*}"}/.multitux" && mkdir -p "$_multitux_home";
+    readonly _multitux_registrydir="$_multitux_home/registry" && mkdir -p "$_multitux_registrydir";
+    readonly SUBCOMMANDS_DESC=("" "Integrate a distro into your host environment" "Create Dockerfile for one of the supported distros");
+    readonly _supported_distros=(arch centos debian fedora opensuse ubuntu void);
+    _var_exports=(_multitux_registrydir);
+    for _var in "${_var_exports[@]}";
+    do
+        { 
+            export "$_var"
+        };
+    done;
+    function log::info () 
+    { 
+        echo -e "[%%%] \033[1;37minfo\033[0m: $@"
+    };
+    function log::warn () 
+    { 
+        echo -e "[***] \033[1;37mwarn\033[0m: $@"
+    };
+    function println::helpgen () 
+    { 
+        _positionals=();
+        _arg_helpname=;
+        _arg_short_desc=;
+        _arg_usage=;
+        _arg_options_desc=;
+        _arg_subcommands=;
+        _arg_examples=;
+        _arg_footer_msg=;
+        function print_help () 
+        { 
+            printf '%s\n' "<The general help message of my script>";
+            printf 'Usage: %s [--short-desc <arg>] [--usage <arg>] [--options-desc <arg>] [--subcommands <arg>] [--examples <arg>] [--footer-msg <arg>] [-h|--help] <helpname>\n' "$0";
+            printf '\t%s\n' "-h, --help: Prints help"
+        };
+        function parse_commandline () 
+        { 
+            _positionals_count=0;
+            while test $# -gt 0; do
+                _key="$1";
+                case "$_key" in 
+                    --short-desc)
+                        test $# -lt 2 && println::error "Missing value for the optional argument '$_key'." 1;
+                        _arg_short_desc="$2";
+                        shift
+                    ;;
+                    --short-desc=*)
+                        _arg_short_desc="${_key##--short-desc=}"
+                    ;;
+                    --usage)
+                        test $# -lt 2 && println::error "Missing value for the optional argument '$_key'." 1;
+                        _arg_usage="$2";
+                        shift
+                    ;;
+                    --usage=*)
+                        _arg_usage="${_key##--usage=}"
+                    ;;
+                    --options-desc)
+                        test $# -lt 2 && println::error "Missing value for the optional argument '$_key'." 1;
+                        _arg_options_desc="$2";
+                        shift
+                    ;;
+                    --options-desc=*)
+                        _arg_options_desc="${_key##--options-desc=}"
+                    ;;
+                    --subcommands)
+                        test $# -lt 2 && println::error "Missing value for the optional argument '$_key'." 1;
+                        _arg_subcommands="$2";
+                        shift
+                    ;;
+                    --subcommands=*)
+                        _arg_subcommands="${_key##--subcommands=}"
+                    ;;
+                    --examples)
+                        test $# -lt 2 && println::error "Missing value for the optional argument '$_key'." 1;
+                        _arg_examples="$2";
+                        shift
+                    ;;
+                    --examples=*)
+                        _arg_examples="${_key##--examples=}"
+                    ;;
+                    --footer-msg)
+                        test $# -lt 2 && println::error "Missing value for the optional argument '$_key'." 1;
+                        _arg_footer_msg="$2";
+                        shift
+                    ;;
+                    --footer-msg=*)
+                        _arg_footer_msg="${_key##--footer-msg=}"
+                    ;;
+                    -h | --help)
+                        print_help;
+                        exit 0
+                    ;;
+                    -h*)
+                        print_help;
+                        exit 0
+                    ;;
+                    *)
+                        _last_positional="$1";
+                        _positionals+=("$_last_positional");
+                        _positionals_count=$((_positionals_count + 1))
+                    ;;
+                esac;
+                shift;
+            done
+        };
+        function handle_passed_args_count () 
+        { 
+            local _required_args_string="'helpname'";
+            test "${_positionals_count}" -ge 1 || _PRINT_HELP=yes println::error "FATAL ERROR: Not enough positional arguments - we require exactly 1 (namely: $_required_args_string), but got only ${_positionals_count}." 1;
+            test "${_positionals_count}" -le 1 || _PRINT_HELP=yes println::error "FATAL ERROR: There were spurious positional arguments --- we expect exactly 1 (namely: $_required_args_string), but got ${_positionals_count} (the last one was: '${_last_positional}')." 1
+        };
+        function assign_positional_args () 
+        { 
+            local _positional_name _shift_for=$1;
+            _positional_names="_arg_helpname ";
+            shift "$_shift_for";
+            for _positional_name in ${_positional_names};
+            do
+                test $# -gt 0 || break;
+                eval "$_positional_name=\${1}" || println::error "Error during argument parsing." 1;
+                shift;
+            done
+        };
+        parse_commandline "$@";
+        handle_passed_args_count;
+        assign_positional_args 1 "${_positionals[@]}";
+        echo -e "${_arg_helpname}\c";
+        if test -n "$_arg_short_desc"; then
+            echo -e " - $_arg_short_desc\n";
+        else
+            echo;
+        fi;
+        if test -n "$_arg_usage"; then
+            echo -e "USAGE:";
+            while read -r line; do
+                echo -e "    $line";
+            done < <(echo "$_arg_usage");
+            echo;
+        fi;
+        for child in "$_arg_options_desc" "$_arg_subcommands";
+        do
+            if test -n "$child"; then
+                local _startString _endString gapVar;
+                _startString="$(sed 's|<^>.*||g' <<<"${child}")";
+                _endString="$(sed 's|.*<^>||g' <<<"${child}")";
+                mapfile -t _startString < <(echo "$_startString");
+                mapfile -t _endString < <(echo "$_endString");
+                local i=0;
+                local firstChild=false;
+                ! "$firstChild" && echo -e "OPTIONS:" || echo -e 'SUBCOMMANDS:' && firstChild=true;
+                for line in "${_startString[@]}";
+                do
+                    gapVar="$(
+					for t in $(seq $((30 - ${#line}))); do
+						echo -n " "
+					done
+				)";
+                    echo -e "    $line${gapVar}${_endString[$i]}";
+                    i=$((i+1));
+                done;
+                echo;
+            fi;
+        done;
+        if test -n "$_arg_examples"; then
+            echo -e "EXAMPLES:";
+            while read -r line; do
+                echo -e "    $line";
+            done < <(echo "$_arg_examples");
+            echo;
+        fi;
+        if test -n "$_arg_footer_msg"; then
+            echo -e "$_arg_footer_msg\n";
+        fi
+    };
+    readonly RC='\033[0m' RED='\033[0;31m' BRED='\033[1;31m' GRAY='\033[1;30m';
+    readonly BLUE='\033[0;34m' BBLUE='\033[1;34m' CYAN='\033[0;34m' BCYAN='\033[1;34m';
+    readonly WHITE='\033[1;37m' GREEN='\033[0;32m' BGREEN='\033[1;32m' YELLOW='\033[1;33m';
+    readonly PURPLE='\033[0;35m' BPURPLE='\033[1;35m' ORANGE='\033[0;33m';
+    function io::file::check_newline () 
+    { 
+        local _input="$1";
+        if ! [[ $(tail -c1 "$_input" | wc -l) -gt 0 ]]; then
+            { 
+                echo >> "$_input"
+            };
+        fi
+    };
+    function begins_with_short_option () 
+    { 
+        local first_option all_short_options='h';
+        first_option="${1:0:1}";
+        test "$all_short_options" = "${all_short_options/$first_option/}" && return 1 || return 0
+    };
+    function subcommand::compile () 
+    { 
+        _positionals=();
+        _arg_path=;
+        _arg_distro=;
+        _arg_type=;
+        function print_help () 
+        { 
+            println::helpgen "${_self_name^^}-${_subcommand_argv^^}" --short-desc "${SUBCOMMANDS_DESC[1]}" --usage "${_self_name} ${_subcommand_argv} [OPTIONAL-OPTIONS] <path>" --options-desc "-c, --distro<^>Avoid directory-as-distro
+-h, --help<^>Prints this help information" --examples "### The basic way:
+${YELLOW}${_self_name} ${_subcommand_argv} awesome_project${RC}
+
+### Pre-setting project distro, avoiding directory-path as distro:
+${YELLOW}${_self_name} ${_subcommand_argv} --distro cake awesome_project${RC}
+
+### Using a specific template for project initialization(core is default):
+${YELLOW}${_self_name} ${_subcommand_argv} --template kernel awesome_project${RC}
+
+### Random usage EXAMPLES just for referrence:
+${YELLOW}${_self_name} ${_subcommand_argv} --template mesa graphics_lib
+${_self_name} ${_subcommand_argv} --template=kernel vanilla_kernel --distro vkernel
+${_self_name} ${_subcommand_argv} --distro=cakebaker foo/bakery${RC}"
+        };
+        function parse_commandline () 
+        { 
+            _positionals_count=0;
+            while test $# -gt 0; do
+                _key="$1";
+                case "$_key" in 
+                    --distro | -c)
+                        test $# -lt 2 && log::error "Missing value for the optional argument '$_key'." 1 || exit;
+                        _arg_distro="$2";
+                        shift
+                    ;;
+                    --distro=*)
+                        _arg_distro="${_key##--distro=}"
+                    ;;
+                    --type | -t)
+                        test $# -lt 2 && log::error "Missing value for the optional argument '$_key'." 1 || exit;
+                        _arg_type="$2";
+                        shift
+                    ;;
+                    --type=*)
+                        _arg_type="${_key##--type=}"
+                    ;;
+                    -h | --help)
+                        print_help;
+                        exit 0
+                    ;;
+                    -h*)
+                        print_help;
+                        exit 0
+                    ;;
+                    *)
+                        _last_positional="$1";
+                        _positionals+=("$_last_positional");
+                        _positionals_count=$((_positionals_count + 1))
+                    ;;
+                esac;
+                shift;
+            done
+        };
+        function handle_passed_args_count () 
+        { 
+            local _required_args_string="'path'";
+            test "${_positionals_count}" -ge 1 || log::error "Not enough positional arguments " "- we require exactly 1 (namely: $_required_args_string), but got only ${_positionals_count}." 1 || exit;
+            test "${_positionals_count}" -le 1 || log::error "There were spurious positional arguments ---" " we expect exactly 1 (namely: $_required_args_string), but got ${_positionals_count} (the last one was: '${_last_positional}')." 1 || exit
+        };
+        function assign_positional_args () 
+        { 
+            local _positional_name _shift_for=$1;
+            _positional_names="_arg_path ";
+            shift "$_shift_for";
+            for _positional_name in ${_positional_names};
+            do
+                test $# -gt 0 || break;
+                eval "$_positional_name=\${1}" || log::error "Error during argument parsing." 1 || exit;
+                shift;
+            done
+        };
+        parse_commandline "$@";
+        handle_passed_args_count;
+        assign_positional_args 1 "${_positionals[@]}";
+        : "${_arg_distro:="ubuntu"}";
+        if test -e "$_arg_path"; then
+            log::error "A file as \`$_arg_path\` already exists." "\t  Use a different path or name" 1 || exit;
+        fi;
+        if [[ ! "${_supported_distros[@]}" =~ (^| )${_arg_distro%%=*}($| ) ]]; then
+            { 
+                log::error "$_arg_distro is not supported" 1 || exit
+            };
+        fi;
+        local _pkg _pkg_list;
+        for _pkg in "${ALL_PACKAGES[@]}";
+        do
+            { 
+                local -n _pkg_spec="$_pkg";
+                _pkg_list+=("'${_pkg_spec[$_arg_distro]}'");
+                unset _pkg_spec
+            };
+        done;
+        function dockerfile::wrapper () 
+        { 
+            local _keyword="${FUNCNAME[1]}";
+            local _input=("$@");
+            case "$_arg_type" in 
+                dockerfile)
+                    case "$_keyword" in 
+                        RUN)
+                            printf "$_keyword ";
+                            local _line;
+                            while read -r _line; do
+                                { 
+                                    echo "${_line}"
+                                };
+                            done
+                        ;;
+                        *)
+                            echo "${_keyword} ${_input[@]}"
+                        ;;
+                    esac
+                ;;
+                shellscript)
+                    case "$_keyword" in 
+                        ENV)
+                            printf 'export %s\n' "${_input[@]}"
+                        ;;
+                        WORKDIR)
+                            printf 'cd %s\n' "${_input[@]}"
+                        ;;
+                        LABEL)
+                            printf '# %s\n' "${_input[@]}"
+                        ;;
+                        COPY)
+                            true 'TODO'
+                        ;;
+                        USER)
+                            true 'TODO'
+                        ;;
+                        RUN)
+                            local _line;
+                            while read -r _line; do
+                                { 
+                                    echo "${_line}"
+                                };
+                            done
+                        ;;
+                        *)
+                            echo "${_input[@]}"
+                        ;;
+                    esac
+                ;;
+            esac
+        };
+        local _keyword;
+        for _keyword in COPY ENV LABEL RUN USER WORKDIR;
+        do
+            { 
+                eval "function ${_keyword}() { dockerfile::wrapper \"\$@\"; }"
+            };
+        done;
+        { 
+            ENV LANG=en_US.UTF-8;
+            COPY install-packages upgrade-packages /usr/bin/;
+            RUN <<EOF
+upgrade-packages && install-packages ${_pkg_list[@]} 	&& useradd -l -u 33333 -G sudo -md /home/gitpod -s /bin/bash -p gitpod gitpod     	&& sed -i.bak -e 's/%sudo\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%sudo ALL=NOPASSWD:ALL/g' /etc/sudoers 	&& printf '%s\n' "PS1='\[]0;\u \w\]\[[01;32m\]\u\[[00m\] \[[01;34m\]\w\[[00m\] \$ '" 		'source "\$HOME/.bashrc.d"/*' | sudo -u gitpod tee -a "/home/gitpod/.bashrc" 	&& sudo -u gitpod mkdir -m0755 -p /home/gitpod/.bashrc.d
+EOF
+
+            ENV HOME=/home/gitpod;
+            WORKDIR \$HOME
+        }
+    };
+    function declare () 
+    { 
+        local args=("$@");
+        local _pkg="${args[1]}";
+        local -n _group="${GROUP^^}_GROUP" && _group+=("${_pkg}");
+        ALL_PACKAGES+=("${_pkg}");
+        builtin declare "$@"
+    };
+    local GROUP="base";
+    declare -A bash=([arch]="bash" [centos]="bash" [fedora]="bash" [opensuse]="bash" [ubuntu]="bash" [void]="bash");
+    declare -A curl=([arch]="curl" [centos]="curl" [debian]="curl" [fedora]="curl" [opensuse]="curl" [ubuntu]="curl" [void]="curl");
+    declare -A ca__certificates=([arch]="ca-certificates" [centos]="ca-certificates" [debian]="ca-certificates" [fedora]="ca-certificates" [opensuse]="ca-certificates" [ubuntu]="ca-certificates" [void]="ca-certificates");
+    declare -A netbase=([arch]="" [centos]="" [debian]="netbase" [fedora]="" [opensuse]="" [ubuntu]="netbase" [void]="iptables");
+    declare -A wget=([arch]="wget" [centos]="wget" [debian]="wget" [fedora]="wget" [opensuse]="wget" [ubuntu]="wget" [void]="wget");
+    declare -A tzdata=([arch]="tzdata" [centos]="tzdata" [debian]="tzdata" [fedora]="tzdata" [opensuse]="timezone" [ubuntu]="tzdata" [void]="tzdata");
+    declare -A gnupg=([arch]="gnupg" [centos]="gnupg" [debian]="gnupg" [fedora]="gnupg" [opensuse]="gpg2" [ubuntu]="gnupg" [void]="gnupg");
+    declare -A openssh_client=([arch]="openssh" [centos]="openssh" [debian]="openssh-client" [fedora]="openssh" [opensuse]="openssh" [ubuntu]="openssh-client" [void]="openssh");
+    declare -A procps=([arch]="procps-ng" [centos]="procps-ng" [debian]="procps" [fedora]="procps-ng" [opensuse]="procps" [ubuntu]="procps" [void]="procps-ng");
+    declare -A bzip2=([arch]="bzip2" [centos]="bzip2" [debian]="bzip2" [fedora]="bzip2" [opensuse]="bzip2" [ubuntu]="bzip2" [void]="bzip2");
+    declare -A file=([arch]="file" [centos]="file" [debian]="file" [fedora]="file" [opensuse]="file" [ubuntu]="file" [void]="file");
+    declare -A unzip=([arch]="unzip" [centos]="unzip" [debian]="unzip" [fedora]="unzip" [opensuse]="unzip" [ubuntu]="unzip" [void]="unzip");
+    declare -A zip=([arch]="zip" [centos]="zip" [debian]="zip" [fedora]="zip" [opensuse]="zip" [ubuntu]="zip" [void]="zip");
+    declare -A bash__completion=([arch]="bash-completion" [centos]="bash-completion" [debian]="bash-completion" [fedora]="bash-completion" [opensuse]="bash-completion" [ubuntu]="bash-completion" [void]="bash-completion");
+    declare -A htop=([arch]="htop" [centos]="htop" [debian]="htop" [fedora]="htop" [opensuse]="htop" [ubuntu]="htop" [void]="htop");
+    declare -A less=([arch]="less" [centos]="less" [debian]="less" [fedora]="less" [opensuse]="less" [ubuntu]="less" [void]="less");
+    declare -A locales=([arch]="" [centos]="" [debian]="locales" [fedora]="" [opensuse]="" [ubuntu]="locales" [void]="");
+    declare -A man__db=([arch]="man-db" [centos]="man-db" [debian]="man-db" [fedora]="man-db" [opensuse]="man" [ubuntu]="man-db" [void]="man-db");
+    declare -A nano=([arch]="nano" [centos]="nano" [debian]="nano" [fedora]="nano" [opensuse]="nano" [ubuntu]="nano" [void]="nano");
+    declare -A ripgrep=([arch]="ripgrep" [centos]="dnf config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlwgeorge/ripgrep/repo/epel-7/carlwgeorge-ripgrep-epel-7.repo||ripgrep" [debian]="ripgrep" [fedora]="ripgrep" [opensuse]="ripgrep" [ubuntu]="ripgrep" [void]="ripgrep");
+    declare -A software__properties__common=([arch]="" [centos]="" [debian]="software-properties-common" [fedora]="" [opensuse]="" [ubuntu]="software-properties-common" [void]="");
+    declare -A sudo=([arch]="sudo" [centos]="sudo" [debian]="sudo" [fedora]="sudo" [opensuse]="sudo" [ubuntu]="sudo" [void]="sudo");
+    declare -A time=([arch]="time" [centos]="time" [debian]="time" [fedora]="time" [opensuse]="time" [ubuntu]="time" [void]="time");
+    declare -A emacs__nox=([arch]="emacs-nox" [centos]="emacs-nox" [debian]="emacs-nox" [fedora]="emacs-nox" [opensuse]="emacs-nox" [ubuntu]="emacs-nox" [void]="emacs");
+    declare -A vim=([arch]="vim" [centos]="vim-enhanced" [debian]="vim" [fedora]="vim-enhanced" [opensuse]="vim" [ubuntu]="vim" [void]="vim");
+    declare -A multitail=([arch]="multitail" [centos]="multitail" [debian]="multitail" [fedora]="multitail" [opensuse]="multitail" [ubuntu]="multitail" [void]="multitail");
+    declare -A lsof=([arch]="lsof" [centos]="lsof" [debian]="lsof" [fedora]="lsof" [opensuse]="lsof" [ubuntu]="lsof" [void]="lsof");
+    declare -A ssl__cert=([arch]="" [centos]="" [debian]="ssl-cert" [fedora]="" [opensuse]="" [ubuntu]="ssl-cert" [void]="");
+    declare -A fish=([arch]="fish" [centos]="fish" [debian]="fish" [fedora]="fish" [opensuse]="fish" [ubuntu]="fish" [void]="fish-shell");
+    declare -A zsh=([arch]="zsh" [centos]="zsh" [debian]="zsh" [fedora]="zsh" [opensuse]="zsh" [ubuntu]="zsh" [void]="zsh");
+    declare -A patch=([arch]="patch" [centos]="patch" [debian]="patch" [fedora]="patch" [opensuse]="patch" [ubuntu]="patch" [void]="patch");
+    declare -A xz_utils=([arch]="xz" [centos]="xz" [debian]="xz-utils" [fedora]="xz" [opensuse]="xz" [ubuntu]="xz-utils" [void]="xz");
+    unset GROUP;
+    local GROUP="tools";
+    declare -A dirmngr=([arch]="gnupg" [centos]="gnupg2" [debian]="dirmngr" [fedora]="gnupg2" [opensuse]="dirmngr" [ubuntu]="dirmngr" [void]="gnupg");
+    declare -A bzr=([arch]="yay -Sy bzr||" [centos]="" [debian]="bzr" [fedora]="" [opensuse]="bzr" [ubuntu]="bzr" [void]="bzr");
+    declare -A git=([arch]="git" [centos]="git" [debian]="git" [fedora]="git" [opensuse]="git" [ubuntu]="git" [void]="git");
+    declare -A git_lfs=([arch]="git-lfs" [centos]="git-lfs" [debian]="git-lfs" [fedora]="git-lfs" [opensuse]="git-lfs" [ubuntu]="git-lfs" [void]="git-lfs");
+    declare -A mercurial=([arch]="mercurial" [centos]="mercurial" [debian]="mercurial" [fedora]="mercurial" [opensuse]="mercurial" [ubuntu]="mercurial" [void]="mercurial");
+    declare -A subversion=([arch]="subversion" [centos]="subversion" [debian]="subversion" [fedora]="subversion" [opensuse]="subversion" [ubuntu]="subversion" [void]="subversion");
+    declare -A jq=([arch]="jq" [centos]="jq" [debian]="jq" [fedora]="jq" [opensuse]="jq" [ubuntu]="jq" [void]="jq");
+    unset GROUP;
+    local GROUP="c_cpp_base";
+    declare -A autoconf=([arch]="autoconf" [centos]="autoconf" [debian]="autoconf" [fedora]="autoconf" [opensuse]="autoconf" [ubuntu]="autoconf" [void]="autoconf");
+    declare -A automake=([arch]="automake" [centos]="automake" [debian]="automake" [fedora]="automake" [opensuse]="automake" [ubuntu]="automake" [void]="automake");
+    declare -A make=([arch]="make" [centos]="make" [debian]="make" [fedora]="make" [opensuse]="make" [ubuntu]="make" [void]="make");
+    declare -A libtool=([arch]="libtool" [centos]="libtool" [debian]="libtool" [fedora]="libtool" [opensuse]="libtool" [ubuntu]="libtool" [void]="libtool");
+    declare -A g_plus_plus=([arch]="g++" [centos]="g++" [debian]="g++" [fedora]="g++" [opensuse]="g++" [ubuntu]="g++" [void]="g++");
+    declare -A gcc=([arch]="gcc" [centos]="gcc" [debian]="gcc" [fedora]="gcc" [opensuse]="gcc" [ubuntu]="gcc" [void]="gcc");
+    declare -A ninja_build=([arch]="ninja" [centos]="ninja-build" [debian]="ninja-build" [fedora]="ninja-build" [opensuse]="ninja" [ubuntu]="ninja-build" [void]="ninja");
+    local GROUP="c_cpp_headers";
+    declare -A libbz2_dev=([arch]="" [centos]="bzip2-devel-1.0.8-9.fc35.i686" [debian]="libbz2-dev" [fedora]="bzip2-devel-1.0.8-9.fc35.i686" [opensuse]="" [ubuntu]="libbz2-dev" [void]="bzip2-devel");
+    unset GROUP;
+    local GROUP="EXTRAS";
+    declare -A build_essential=([arch]="base-devel" [centos]='dnf groupinstall -y "Development Tools"||' [debian]="build-essential" [fedora]='dnf groupinstall -y "Development Tools"||' [opensuse]='zypper install -y -t pattern devel_basis||' [ubuntu]="build-essential" [void]="base-devel");
+    declare -A dpkg_dev=([arch]="" [centos]="" [debian]="dpkg-dev" [fedora]="" [opensuse]="" [ubuntu]="dpkg-dev" [void]="");
+    declare -A imagemagick=([arch]="imagemagick" [centos]="imagemagick" [debian]="imagemagick" [fedora]="imagemagick" [opensuse]="imagemagick" [ubuntu]="imagemagick" [void]="imagemagick");
+    unset GROUP;
+    function print_help () 
+    { 
+        println::helpgen "${_self_name^^}" --short-desc "Run multiple linux distros in Gitpod" --usage "${_self_name} [OPTIONAL-OPTIONS] [SUBCOMMAND] <subcommand-arguments>" --options-desc "-V, --version<^>Print version info and exit
+-v, --verbose<^>Use very verbose output
+-q, --quiet<^>No output printed to stdout
+-h, --help<^>Prints this help information" --subcommands "parallel<^>${SUBCOMMANDS_DESC[1]}
+compile<^>${SUBCOMMANDS_DESC[2]}
+" --footer-msg "Try '${_self_name} <subcommand> --help' for more information on a specific command.
+For bugreports: $___self_REPOSITORY"
+    };
+    function main () 
+    { 
+        _self_name="${___self##*/}";
+        _arg_verbose=off;
+        _arg_quiet=off;
+        for _arg in "${@}";
+        do
+            { 
+                if test "$_arg" != "--" && grep -E '\-\w+' <<< "$_arg" > /dev/null; then
+                    { 
+                        case "$_arg" in 
+                            --verbose | -v)
+                                _arg_verbose=on
+                            ;;
+                            --quiet | -q)
+                                _arg_quiet=on
+                            ;;
+                            --version | -V)
+                                echo "$___self_VERSION";
+                                exit 0
+                            ;;
+                            --help | -h*)
+                                print_help && exit 0
+                            ;;
+                        esac;
+                        shift
+                    };
+                else
+                    { 
+                        break
+                    };
+                fi
+            };
+        done;
+        unset _arg;
+        _subcommand_argv="${1:-}" && shift || true;
+        case "$_subcommand_argv" in 
+            parallel | compile)
+                subcommand::$_subcommand_argv "$@"
+            ;;
+            *)
+                test -n "$_subcommand_argv" && log::warn "Unknown subcommand: $_subcommand_argv";
+                print_help;
+                test -n "$_subcommand_argv" && exit 1 || exit 0
+            ;;
+        esac;
+        exit
+    };
+    main "$@";
+    wait;
+    exit
+}
+main@bashbox%28519 "$@";
