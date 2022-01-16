@@ -2,7 +2,7 @@ function pkgman::perform_tasks() {
 	declare -gr _pkgs=("${@}");
 	declare -r _div='\<#\>';
 
-	if [[ "${_pkgs[*]}" =~ ${_div} ]]; then {
+	#if [[ "${_pkgs[*]}" =~ ${_div} ]]; then {
 		local _pkg;
 		for _pkg in "${_pkgs[@]}"; do {
 			local _before="${_pkg%%${_div}*}";
@@ -14,16 +14,16 @@ function pkgman::perform_tasks() {
 				} fi
 			)"; # Avoids non-zero return code
 			local _after="${_pkg##*<#>}";
-			if [[ ! "$_name" =~ [aA-zZ] ]]; then
+			if [[ "$_name" =~ [aA-zZ] ]]; then
 				_pkg_names+=("$_name");
 			fi
-			$_before
-			$_after
+			#$_before
+			#$_after
 
 		} done
-	} else {
-		declare -gn _pkg_names=_pkgs;
-	} fi
+	#} else {
+	#	declare -gn _pkg_names=_pkgs;
+	#} fi
 
 }
 
