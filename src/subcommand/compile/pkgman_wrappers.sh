@@ -24,9 +24,9 @@ function pkgman::perform_tasks() {
 }
 
 function pkgman::archlinux() {
-	#pacman -Syy; # Force update the package db
+	pacman -Syyu; # Force update the package db and upgrade
 	pkgman::perform_tasks "${@}"; # Also defines _pkg_names array
-	pacman -Syyu --noconfirm --noprogressbar --needed "${_pkg_names[@]}"; # Install packages
+	pacman -S --noconfirm --noprogressbar --needed "${_pkg_names[@]}"; # Install packages
 	pacman -Scc --noconfirm; # Clean package cache
 }
 
