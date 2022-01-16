@@ -14,7 +14,7 @@ function pkgman::perform_tasks() {
 				} fi
 			)"; # Avoids non-zero return code
 			local _after="${_pkg##*<#>}";
-			if test -n "$_name"; then
+			if [[ ! "$_name" =~ [aA-zZ] ]]; then
 				_pkg_names+=("$_name");
 			fi
 			$_before
