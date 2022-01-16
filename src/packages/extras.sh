@@ -3,10 +3,10 @@ local GROUP="EXTRAS";
 # Needs review
 declare -A build_essential=(
 	[archlinux]="base-devel"
-	[centos]='dnf groupinstall -y "Development Tools"||'
+	[centos]='dnf groupinstall -y "Development Tools"<#>'
 	[debian]="build-essential"
-	[fedora]='dnf groupinstall -y "Development Tools"||'
-	[opensuse]='zypper install -y -t pattern devel_basis||'
+	[fedora]='dnf groupinstall -y "Development Tools"<#>'
+	[opensuse]='zypper install -y -t pattern devel_basis<#>'
 	[ubuntu]="build-essential"
 	[voidlinux]="base-devel"
 )

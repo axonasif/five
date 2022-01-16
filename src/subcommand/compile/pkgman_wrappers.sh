@@ -1,5 +1,5 @@
 function pkgman::perform_tasks() {
-	declare -r _pkgs=("${@}");
+	declare -gr _pkgs=("${@}");
 	declare -r _div='\<#\>';
 
 	if [[ "${_pkgs[*]}" =~ ${_div} ]]; then {

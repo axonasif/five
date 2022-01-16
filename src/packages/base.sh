@@ -192,7 +192,7 @@ declare -A nano=(
 
 declare -A ripgrep=(
 	[archlinux]="ripgrep"
-	[centos]="dnf config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlwgeorge/ripgrep/repo/epel-7/carlwgeorge-ripgrep-epel-7.repo||ripgrep"
+	[centos]="<#>dnf config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlwgeorge/ripgrep/repo/epel-7/carlwgeorge-ripgrep-epel-7.repo<#>ripgrep"
 	[debian]="ripgrep"
 	[fedora]="ripgrep"
 	[opensuse]="ripgrep"

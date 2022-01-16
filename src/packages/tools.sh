@@ -13,7 +13,7 @@ declare -A dirmngr=(
 )
 
 declare -A bzr=(
-	[archlinux]="yay -Sy bzr||"
+	[archlinux]="yay -Sy bzr<#>"
 	[centos]="" # Review #TODO
 	[debian]="bzr"
 	[fedora]="" # Review #TODO
