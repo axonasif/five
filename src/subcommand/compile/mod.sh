@@ -123,10 +123,12 @@ ${_self_name} ${_subcommand_argv} --distro=cakebaker foo/bakery${RC}\
 	#_arg_distro="$(tr -d '[:space:]' <<<"${_arg_distro,,}")" # Make lowercase and trim whitespaces
 
 	## When the distro dockerfile already exists
-	if test -e "$_arg_path"; then
-		log::error "A file as \`$_arg_path\` already exists." \
+	if test -e "$_arg_path"; then {
+		log::error "A dir as \`$_arg_path\` already exists." \
 		"\t  Use a different path or name" 1 || exit;
-	fi
+	} else {
+		mkdir -p "$_arg_path";
+	} fi
 
 	## Verify if the specified distro is valid
 	if [[ ! "${_supported_distros[@]}" =~ (^| )${_arg_distro%%=*}($| ) ]]; then {

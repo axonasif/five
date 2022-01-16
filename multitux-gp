@@ -1,5 +1,5 @@
 #!/data/data/com.termux/files/usr/bin/env bash
-main@bashbox%28519 () 
+main@bashbox%1235 () 
 { 
     function process::self::exit () 
     { 
@@ -50,7 +50,7 @@ main@bashbox%28519 ()
     shopt -s inherit_errexit expand_aliases;
     ___self="$0";
     ___self_PID="$$";
-    ___MAIN_FUNCNAME="main@bashbox%28519";
+    ___MAIN_FUNCNAME="main@bashbox%1235";
     ___self_NAME="multitux-gp";
     ___self_CODENAME="multitux-gp";
     ___self_AUTHORS=("AXON <axonasif@gmail.com>");
@@ -63,7 +63,7 @@ main@bashbox%28519 ()
     readonly _multitux_home="${HOME:-"${0%/*}"}/.multitux" && mkdir -p "$_multitux_home";
     readonly _multitux_registrydir="$_multitux_home/registry" && mkdir -p "$_multitux_registrydir";
     readonly SUBCOMMANDS_DESC=("" "Integrate a distro into your host environment" "Create Dockerfile for one of the supported distros");
-    readonly _supported_distros=(arch centos debian fedora opensuse ubuntu void);
+    readonly _supported_distros=(archlinux centos debian fedora opensuse ubuntu voidlinux);
     _var_exports=(_multitux_registrydir);
     for _var in "${_var_exports[@]}";
     do
@@ -339,7 +339,13 @@ ${_self_name} ${_subcommand_argv} --distro=cakebaker foo/bakery${RC}"
         assign_positional_args 1 "${_positionals[@]}";
         : "${_arg_distro:="ubuntu"}";
         if test -e "$_arg_path"; then
-            log::error "A file as \`$_arg_path\` already exists." "\t  Use a different path or name" 1 || exit;
+            { 
+                log::error "A dir as \`$_arg_path\` already exists." "\t  Use a different path or name" 1 || exit
+            };
+        else
+            { 
+                mkdir -p "$_arg_path"
+            };
         fi;
         if [[ ! "${_supported_distros[@]}" =~ (^| )${_arg_distro%%=*}($| ) ]]; then
             { 
@@ -417,9 +423,10 @@ ${_self_name} ${_subcommand_argv} --distro=cakebaker foo/bakery${RC}"
         done;
         { 
             ENV LANG=en_US.UTF-8;
-            COPY install-packages upgrade-packages /usr/bin/;
+            COPY install-packages /usr/bin/;
+            printf '%s\n' "$(declare -f 'pkgman::perform_tasks')" "$(declare -f "pkgman::$_arg_distro")" "pkgman::$_arg_distro \"\$@\"" > "$_arg_path/install-packages";
             RUN <<EOF
-upgrade-packages && install-packages ${_pkg_list[@]} 	&& useradd -l -u 33333 -G sudo -md /home/gitpod -s /bin/bash -p gitpod gitpod     	&& sed -i.bak -e 's/%sudo\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%sudo ALL=NOPASSWD:ALL/g' /etc/sudoers 	&& printf '%s\n' "PS1='\[]0;\u \w\]\[[01;32m\]\u\[[00m\] \[[01;34m\]\w\[[00m\] \$ '" 		'source "\$HOME/.bashrc.d"/*' | sudo -u gitpod tee -a "/home/gitpod/.bashrc" 	&& sudo -u gitpod mkdir -m0755 -p /home/gitpod/.bashrc.d
+install-packages ${_pkg_list[@]} 	&& useradd -l -u 33333 -G sudo -md /home/gitpod -s /bin/bash -p gitpod gitpod     	&& sed -i.bak -e 's/%sudo\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%sudo ALL=NOPASSWD:ALL/g' /etc/sudoers 	&& printf '%s\n' "PS1='\[]0;\u \w\]\[[01;32m\]\u\[[00m\] \[[01;34m\]\w\[[00m\] \$ '" 		'source "\$HOME/.bashrc.d"/*' | sudo -u gitpod tee -a "/home/gitpod/.bashrc" 	&& sudo -u gitpod mkdir -m0755 -p /home/gitpod/.bashrc.d
 EOF
 
             ENV HOME=/home/gitpod;
@@ -435,63 +442,63 @@ EOF
         builtin declare "$@"
     };
     local GROUP="base";
-    declare -A bash=([arch]="bash" [centos]="bash" [fedora]="bash" [opensuse]="bash" [ubuntu]="bash" [void]="bash");
-    declare -A curl=([arch]="curl" [centos]="curl" [debian]="curl" [fedora]="curl" [opensuse]="curl" [ubuntu]="curl" [void]="curl");
-    declare -A ca__certificates=([arch]="ca-certificates" [centos]="ca-certificates" [debian]="ca-certificates" [fedora]="ca-certificates" [opensuse]="ca-certificates" [ubuntu]="ca-certificates" [void]="ca-certificates");
-    declare -A netbase=([arch]="" [centos]="" [debian]="netbase" [fedora]="" [opensuse]="" [ubuntu]="netbase" [void]="iptables");
-    declare -A wget=([arch]="wget" [centos]="wget" [debian]="wget" [fedora]="wget" [opensuse]="wget" [ubuntu]="wget" [void]="wget");
-    declare -A tzdata=([arch]="tzdata" [centos]="tzdata" [debian]="tzdata" [fedora]="tzdata" [opensuse]="timezone" [ubuntu]="tzdata" [void]="tzdata");
-    declare -A gnupg=([arch]="gnupg" [centos]="gnupg" [debian]="gnupg" [fedora]="gnupg" [opensuse]="gpg2" [ubuntu]="gnupg" [void]="gnupg");
-    declare -A openssh_client=([arch]="openssh" [centos]="openssh" [debian]="openssh-client" [fedora]="openssh" [opensuse]="openssh" [ubuntu]="openssh-client" [void]="openssh");
-    declare -A procps=([arch]="procps-ng" [centos]="procps-ng" [debian]="procps" [fedora]="procps-ng" [opensuse]="procps" [ubuntu]="procps" [void]="procps-ng");
-    declare -A bzip2=([arch]="bzip2" [centos]="bzip2" [debian]="bzip2" [fedora]="bzip2" [opensuse]="bzip2" [ubuntu]="bzip2" [void]="bzip2");
-    declare -A file=([arch]="file" [centos]="file" [debian]="file" [fedora]="file" [opensuse]="file" [ubuntu]="file" [void]="file");
-    declare -A unzip=([arch]="unzip" [centos]="unzip" [debian]="unzip" [fedora]="unzip" [opensuse]="unzip" [ubuntu]="unzip" [void]="unzip");
-    declare -A zip=([arch]="zip" [centos]="zip" [debian]="zip" [fedora]="zip" [opensuse]="zip" [ubuntu]="zip" [void]="zip");
-    declare -A bash__completion=([arch]="bash-completion" [centos]="bash-completion" [debian]="bash-completion" [fedora]="bash-completion" [opensuse]="bash-completion" [ubuntu]="bash-completion" [void]="bash-completion");
-    declare -A htop=([arch]="htop" [centos]="htop" [debian]="htop" [fedora]="htop" [opensuse]="htop" [ubuntu]="htop" [void]="htop");
-    declare -A less=([arch]="less" [centos]="less" [debian]="less" [fedora]="less" [opensuse]="less" [ubuntu]="less" [void]="less");
-    declare -A locales=([arch]="" [centos]="" [debian]="locales" [fedora]="" [opensuse]="" [ubuntu]="locales" [void]="");
-    declare -A man__db=([arch]="man-db" [centos]="man-db" [debian]="man-db" [fedora]="man-db" [opensuse]="man" [ubuntu]="man-db" [void]="man-db");
-    declare -A nano=([arch]="nano" [centos]="nano" [debian]="nano" [fedora]="nano" [opensuse]="nano" [ubuntu]="nano" [void]="nano");
-    declare -A ripgrep=([arch]="ripgrep" [centos]="dnf config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlwgeorge/ripgrep/repo/epel-7/carlwgeorge-ripgrep-epel-7.repo||ripgrep" [debian]="ripgrep" [fedora]="ripgrep" [opensuse]="ripgrep" [ubuntu]="ripgrep" [void]="ripgrep");
-    declare -A software__properties__common=([arch]="" [centos]="" [debian]="software-properties-common" [fedora]="" [opensuse]="" [ubuntu]="software-properties-common" [void]="");
-    declare -A sudo=([arch]="sudo" [centos]="sudo" [debian]="sudo" [fedora]="sudo" [opensuse]="sudo" [ubuntu]="sudo" [void]="sudo");
-    declare -A time=([arch]="time" [centos]="time" [debian]="time" [fedora]="time" [opensuse]="time" [ubuntu]="time" [void]="time");
-    declare -A emacs__nox=([arch]="emacs-nox" [centos]="emacs-nox" [debian]="emacs-nox" [fedora]="emacs-nox" [opensuse]="emacs-nox" [ubuntu]="emacs-nox" [void]="emacs");
-    declare -A vim=([arch]="vim" [centos]="vim-enhanced" [debian]="vim" [fedora]="vim-enhanced" [opensuse]="vim" [ubuntu]="vim" [void]="vim");
-    declare -A multitail=([arch]="multitail" [centos]="multitail" [debian]="multitail" [fedora]="multitail" [opensuse]="multitail" [ubuntu]="multitail" [void]="multitail");
-    declare -A lsof=([arch]="lsof" [centos]="lsof" [debian]="lsof" [fedora]="lsof" [opensuse]="lsof" [ubuntu]="lsof" [void]="lsof");
-    declare -A ssl__cert=([arch]="" [centos]="" [debian]="ssl-cert" [fedora]="" [opensuse]="" [ubuntu]="ssl-cert" [void]="");
-    declare -A fish=([arch]="fish" [centos]="fish" [debian]="fish" [fedora]="fish" [opensuse]="fish" [ubuntu]="fish" [void]="fish-shell");
-    declare -A zsh=([arch]="zsh" [centos]="zsh" [debian]="zsh" [fedora]="zsh" [opensuse]="zsh" [ubuntu]="zsh" [void]="zsh");
-    declare -A patch=([arch]="patch" [centos]="patch" [debian]="patch" [fedora]="patch" [opensuse]="patch" [ubuntu]="patch" [void]="patch");
-    declare -A xz_utils=([arch]="xz" [centos]="xz" [debian]="xz-utils" [fedora]="xz" [opensuse]="xz" [ubuntu]="xz-utils" [void]="xz");
+    declare -A bash=([archlinux]="bash" [centos]="bash" [fedora]="bash" [opensuse]="bash" [ubuntu]="bash" [voidlinux]="bash");
+    declare -A curl=([archlinux]="curl" [centos]="curl" [debian]="curl" [fedora]="curl" [opensuse]="curl" [ubuntu]="curl" [voidlinux]="curl");
+    declare -A ca__certificates=([archlinux]="ca-certificates" [centos]="ca-certificates" [debian]="ca-certificates" [fedora]="ca-certificates" [opensuse]="ca-certificates" [ubuntu]="ca-certificates" [voidlinux]="ca-certificates");
+    declare -A netbase=([archlinux]="" [centos]="" [debian]="netbase" [fedora]="" [opensuse]="" [ubuntu]="netbase" [voidlinux]="iptables");
+    declare -A wget=([archlinux]="wget" [centos]="wget" [debian]="wget" [fedora]="wget" [opensuse]="wget" [ubuntu]="wget" [voidlinux]="wget");
+    declare -A tzdata=([archlinux]="tzdata" [centos]="tzdata" [debian]="tzdata" [fedora]="tzdata" [opensuse]="timezone" [ubuntu]="tzdata" [voidlinux]="tzdata");
+    declare -A gnupg=([archlinux]="gnupg" [centos]="gnupg" [debian]="gnupg" [fedora]="gnupg" [opensuse]="gpg2" [ubuntu]="gnupg" [voidlinux]="gnupg");
+    declare -A openssh_client=([archlinux]="openssh" [centos]="openssh" [debian]="openssh-client" [fedora]="openssh" [opensuse]="openssh" [ubuntu]="openssh-client" [voidlinux]="openssh");
+    declare -A procps=([archlinux]="procps-ng" [centos]="procps-ng" [debian]="procps" [fedora]="procps-ng" [opensuse]="procps" [ubuntu]="procps" [voidlinux]="procps-ng");
+    declare -A bzip2=([archlinux]="bzip2" [centos]="bzip2" [debian]="bzip2" [fedora]="bzip2" [opensuse]="bzip2" [ubuntu]="bzip2" [voidlinux]="bzip2");
+    declare -A file=([archlinux]="file" [centos]="file" [debian]="file" [fedora]="file" [opensuse]="file" [ubuntu]="file" [voidlinux]="file");
+    declare -A unzip=([archlinux]="unzip" [centos]="unzip" [debian]="unzip" [fedora]="unzip" [opensuse]="unzip" [ubuntu]="unzip" [voidlinux]="unzip");
+    declare -A zip=([archlinux]="zip" [centos]="zip" [debian]="zip" [fedora]="zip" [opensuse]="zip" [ubuntu]="zip" [voidlinux]="zip");
+    declare -A bash__completion=([archlinux]="bash-completion" [centos]="bash-completion" [debian]="bash-completion" [fedora]="bash-completion" [opensuse]="bash-completion" [ubuntu]="bash-completion" [voidlinux]="bash-completion");
+    declare -A htop=([archlinux]="htop" [centos]="htop" [debian]="htop" [fedora]="htop" [opensuse]="htop" [ubuntu]="htop" [voidlinux]="htop");
+    declare -A less=([archlinux]="less" [centos]="less" [debian]="less" [fedora]="less" [opensuse]="less" [ubuntu]="less" [voidlinux]="less");
+    declare -A locales=([archlinux]="" [centos]="" [debian]="locales" [fedora]="" [opensuse]="" [ubuntu]="locales" [voidlinux]="");
+    declare -A man__db=([archlinux]="man-db" [centos]="man-db" [debian]="man-db" [fedora]="man-db" [opensuse]="man" [ubuntu]="man-db" [voidlinux]="man-db");
+    declare -A nano=([archlinux]="nano" [centos]="nano" [debian]="nano" [fedora]="nano" [opensuse]="nano" [ubuntu]="nano" [voidlinux]="nano");
+    declare -A ripgrep=([archlinux]="ripgrep" [centos]="dnf config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlwgeorge/ripgrep/repo/epel-7/carlwgeorge-ripgrep-epel-7.repo||ripgrep" [debian]="ripgrep" [fedora]="ripgrep" [opensuse]="ripgrep" [ubuntu]="ripgrep" [voidlinux]="ripgrep");
+    declare -A software__properties__common=([archlinux]="" [centos]="" [debian]="software-properties-common" [fedora]="" [opensuse]="" [ubuntu]="software-properties-common" [voidlinux]="");
+    declare -A sudo=([archlinux]="sudo" [centos]="sudo" [debian]="sudo" [fedora]="sudo" [opensuse]="sudo" [ubuntu]="sudo" [voidlinux]="sudo");
+    declare -A time=([archlinux]="time" [centos]="time" [debian]="time" [fedora]="time" [opensuse]="time" [ubuntu]="time" [voidlinux]="time");
+    declare -A emacs__nox=([archlinux]="emacs-nox" [centos]="emacs-nox" [debian]="emacs-nox" [fedora]="emacs-nox" [opensuse]="emacs-nox" [ubuntu]="emacs-nox" [voidlinux]="emacs");
+    declare -A vim=([archlinux]="vim" [centos]="vim-enhanced" [debian]="vim" [fedora]="vim-enhanced" [opensuse]="vim" [ubuntu]="vim" [voidlinux]="vim");
+    declare -A multitail=([archlinux]="multitail" [centos]="multitail" [debian]="multitail" [fedora]="multitail" [opensuse]="multitail" [ubuntu]="multitail" [voidlinux]="multitail");
+    declare -A lsof=([archlinux]="lsof" [centos]="lsof" [debian]="lsof" [fedora]="lsof" [opensuse]="lsof" [ubuntu]="lsof" [voidlinux]="lsof");
+    declare -A ssl__cert=([archlinux]="" [centos]="" [debian]="ssl-cert" [fedora]="" [opensuse]="" [ubuntu]="ssl-cert" [voidlinux]="");
+    declare -A fish=([archlinux]="fish" [centos]="fish" [debian]="fish" [fedora]="fish" [opensuse]="fish" [ubuntu]="fish" [voidlinux]="fish-shell");
+    declare -A zsh=([archlinux]="zsh" [centos]="zsh" [debian]="zsh" [fedora]="zsh" [opensuse]="zsh" [ubuntu]="zsh" [voidlinux]="zsh");
+    declare -A patch=([archlinux]="patch" [centos]="patch" [debian]="patch" [fedora]="patch" [opensuse]="patch" [ubuntu]="patch" [voidlinux]="patch");
+    declare -A xz_utils=([archlinux]="xz" [centos]="xz" [debian]="xz-utils" [fedora]="xz" [opensuse]="xz" [ubuntu]="xz-utils" [voidlinux]="xz");
     unset GROUP;
     local GROUP="tools";
-    declare -A dirmngr=([arch]="gnupg" [centos]="gnupg2" [debian]="dirmngr" [fedora]="gnupg2" [opensuse]="dirmngr" [ubuntu]="dirmngr" [void]="gnupg");
-    declare -A bzr=([arch]="yay -Sy bzr||" [centos]="" [debian]="bzr" [fedora]="" [opensuse]="bzr" [ubuntu]="bzr" [void]="bzr");
-    declare -A git=([arch]="git" [centos]="git" [debian]="git" [fedora]="git" [opensuse]="git" [ubuntu]="git" [void]="git");
-    declare -A git_lfs=([arch]="git-lfs" [centos]="git-lfs" [debian]="git-lfs" [fedora]="git-lfs" [opensuse]="git-lfs" [ubuntu]="git-lfs" [void]="git-lfs");
-    declare -A mercurial=([arch]="mercurial" [centos]="mercurial" [debian]="mercurial" [fedora]="mercurial" [opensuse]="mercurial" [ubuntu]="mercurial" [void]="mercurial");
-    declare -A subversion=([arch]="subversion" [centos]="subversion" [debian]="subversion" [fedora]="subversion" [opensuse]="subversion" [ubuntu]="subversion" [void]="subversion");
-    declare -A jq=([arch]="jq" [centos]="jq" [debian]="jq" [fedora]="jq" [opensuse]="jq" [ubuntu]="jq" [void]="jq");
+    declare -A dirmngr=([archlinux]="gnupg" [centos]="gnupg2" [debian]="dirmngr" [fedora]="gnupg2" [opensuse]="dirmngr" [ubuntu]="dirmngr" [voidlinux]="gnupg");
+    declare -A bzr=([archlinux]="yay -Sy bzr||" [centos]="" [debian]="bzr" [fedora]="" [opensuse]="bzr" [ubuntu]="bzr" [voidlinux]="bzr");
+    declare -A git=([archlinux]="git" [centos]="git" [debian]="git" [fedora]="git" [opensuse]="git" [ubuntu]="git" [voidlinux]="git");
+    declare -A git_lfs=([archlinux]="git-lfs" [centos]="git-lfs" [debian]="git-lfs" [fedora]="git-lfs" [opensuse]="git-lfs" [ubuntu]="git-lfs" [voidlinux]="git-lfs");
+    declare -A mercurial=([archlinux]="mercurial" [centos]="mercurial" [debian]="mercurial" [fedora]="mercurial" [opensuse]="mercurial" [ubuntu]="mercurial" [voidlinux]="mercurial");
+    declare -A subversion=([archlinux]="subversion" [centos]="subversion" [debian]="subversion" [fedora]="subversion" [opensuse]="subversion" [ubuntu]="subversion" [voidlinux]="subversion");
+    declare -A jq=([archlinux]="jq" [centos]="jq" [debian]="jq" [fedora]="jq" [opensuse]="jq" [ubuntu]="jq" [voidlinux]="jq");
     unset GROUP;
     local GROUP="c_cpp_base";
-    declare -A autoconf=([arch]="autoconf" [centos]="autoconf" [debian]="autoconf" [fedora]="autoconf" [opensuse]="autoconf" [ubuntu]="autoconf" [void]="autoconf");
-    declare -A automake=([arch]="automake" [centos]="automake" [debian]="automake" [fedora]="automake" [opensuse]="automake" [ubuntu]="automake" [void]="automake");
-    declare -A make=([arch]="make" [centos]="make" [debian]="make" [fedora]="make" [opensuse]="make" [ubuntu]="make" [void]="make");
-    declare -A libtool=([arch]="libtool" [centos]="libtool" [debian]="libtool" [fedora]="libtool" [opensuse]="libtool" [ubuntu]="libtool" [void]="libtool");
-    declare -A g_plus_plus=([arch]="g++" [centos]="g++" [debian]="g++" [fedora]="g++" [opensuse]="g++" [ubuntu]="g++" [void]="g++");
-    declare -A gcc=([arch]="gcc" [centos]="gcc" [debian]="gcc" [fedora]="gcc" [opensuse]="gcc" [ubuntu]="gcc" [void]="gcc");
-    declare -A ninja_build=([arch]="ninja" [centos]="ninja-build" [debian]="ninja-build" [fedora]="ninja-build" [opensuse]="ninja" [ubuntu]="ninja-build" [void]="ninja");
+    declare -A autoconf=([archlinux]="autoconf" [centos]="autoconf" [debian]="autoconf" [fedora]="autoconf" [opensuse]="autoconf" [ubuntu]="autoconf" [voidlinux]="autoconf");
+    declare -A automake=([archlinux]="automake" [centos]="automake" [debian]="automake" [fedora]="automake" [opensuse]="automake" [ubuntu]="automake" [voidlinux]="automake");
+    declare -A make=([archlinux]="make" [centos]="make" [debian]="make" [fedora]="make" [opensuse]="make" [ubuntu]="make" [voidlinux]="make");
+    declare -A libtool=([archlinux]="libtool" [centos]="libtool" [debian]="libtool" [fedora]="libtool" [opensuse]="libtool" [ubuntu]="libtool" [voidlinux]="libtool");
+    declare -A g_plus_plus=([archlinux]="g++" [centos]="g++" [debian]="g++" [fedora]="g++" [opensuse]="g++" [ubuntu]="g++" [voidlinux]="g++");
+    declare -A gcc=([archlinux]="gcc" [centos]="gcc" [debian]="gcc" [fedora]="gcc" [opensuse]="gcc" [ubuntu]="gcc" [voidlinux]="gcc");
+    declare -A ninja_build=([archlinux]="ninja" [centos]="ninja-build" [debian]="ninja-build" [fedora]="ninja-build" [opensuse]="ninja" [ubuntu]="ninja-build" [voidlinux]="ninja");
     local GROUP="c_cpp_headers";
-    declare -A libbz2_dev=([arch]="" [centos]="bzip2-devel-1.0.8-9.fc35.i686" [debian]="libbz2-dev" [fedora]="bzip2-devel-1.0.8-9.fc35.i686" [opensuse]="" [ubuntu]="libbz2-dev" [void]="bzip2-devel");
+    declare -A libbz2_dev=([archlinux]="" [centos]="bzip2-devel-1.0.8-9.fc35.i686" [debian]="libbz2-dev" [fedora]="bzip2-devel-1.0.8-9.fc35.i686" [opensuse]="" [ubuntu]="libbz2-dev" [voidlinux]="bzip2-devel");
     unset GROUP;
     local GROUP="EXTRAS";
-    declare -A build_essential=([arch]="base-devel" [centos]='dnf groupinstall -y "Development Tools"||' [debian]="build-essential" [fedora]='dnf groupinstall -y "Development Tools"||' [opensuse]='zypper install -y -t pattern devel_basis||' [ubuntu]="build-essential" [void]="base-devel");
-    declare -A dpkg_dev=([arch]="" [centos]="" [debian]="dpkg-dev" [fedora]="" [opensuse]="" [ubuntu]="dpkg-dev" [void]="");
-    declare -A imagemagick=([arch]="imagemagick" [centos]="imagemagick" [debian]="imagemagick" [fedora]="imagemagick" [opensuse]="imagemagick" [ubuntu]="imagemagick" [void]="imagemagick");
+    declare -A build_essential=([archlinux]="base-devel" [centos]='dnf groupinstall -y "Development Tools"||' [debian]="build-essential" [fedora]='dnf groupinstall -y "Development Tools"||' [opensuse]='zypper install -y -t pattern devel_basis||' [ubuntu]="build-essential" [voidlinux]="base-devel");
+    declare -A dpkg_dev=([archlinux]="" [centos]="" [debian]="dpkg-dev" [fedora]="" [opensuse]="" [ubuntu]="dpkg-dev" [voidlinux]="");
+    declare -A imagemagick=([archlinux]="imagemagick" [centos]="imagemagick" [debian]="imagemagick" [fedora]="imagemagick" [opensuse]="imagemagick" [ubuntu]="imagemagick" [voidlinux]="imagemagick");
     unset GROUP;
     function print_help () 
     { 
@@ -555,4 +562,4 @@ For bugreports: $___self_REPOSITORY"
     wait;
     exit
 }
-main@bashbox%28519 "$@";
+main@bashbox%1235 "$@";

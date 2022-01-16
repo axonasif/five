@@ -1,10 +1,14 @@
 ###### BASE
 ENV LANG=en_US.UTF-8
 
-COPY install-packages upgrade-packages /usr/bin/
+COPY install-packages /usr/bin/ # What's below is not included in the result dockerfile
+	printf '%s\n' "$(declare -f 'pkgman::perform_tasks')" \
+		"$(declare -f "pkgman::$_arg_distro")" \
+		"pkgman::$_arg_distro \"\$@\"" > "$_arg_path/install-packages";
 
+# _pkg_list comes from src/subcommand/compile/mod.sh
 RUN <<EOF
-upgrade-packages && install-packages ${_pkg_list[@]} \
+install-packages ${_pkg_list[@]} \
 	&& useradd -l -u 33333 -G sudo -md /home/gitpod -s /bin/bash -p gitpod gitpod \
     	&& sed -i.bak -e 's/%sudo\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%sudo ALL=NOPASSWD:ALL/g' /etc/sudoers \
 	&& printf '%s\n' "PS1='\[]0;\u \w\]\[[01;32m\]\u\[[00m\] \[[01;34m\]\w\[[00m\] \$ '" \
