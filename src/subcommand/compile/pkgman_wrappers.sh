@@ -14,7 +14,11 @@ function pkgman::perform_tasks() {
 				} fi
 			)"; # Avoids non-zero return code
 			local _after="${_pkg##*<#>}";
-			_pkg_names+=("$_name");
+			if test -n "$_name"; then
+				_pkg_names+=("$_name");
+			fi
+			$_before
+			$_after
 
 		} done
 	} else {
