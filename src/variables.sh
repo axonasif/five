@@ -11,13 +11,13 @@ readonly SUBCOMMANDS_DESC=(
 );
 
 readonly _supported_distros=(
-	arch
+	archlinux
 	centos
 	debian
 	fedora
 	opensuse
 	ubuntu
-	void
+	voidlinux
 )
 
 # Exports

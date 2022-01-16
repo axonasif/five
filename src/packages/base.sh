@@ -1,323 +1,323 @@
 local GROUP="base";
 
 declare -A bash=(
-	[arch]="bash"
+	[archlinux]="bash"
 	[centos]="bash"
 	[fedora]="bash"
 	[opensuse]="bash"
 	[ubuntu]="bash"
-	[void]="bash"
+	[voidlinux]="bash"
 )
 
 declare -A curl=(
-	[arch]="curl"
+	[archlinux]="curl"
 	[centos]="curl"
 	[debian]="curl"
 	[fedora]="curl"
 	[opensuse]="curl"
 	[ubuntu]="curl"
-	[void]="curl"
+	[voidlinux]="curl"
 )
 
 declare -A ca__certificates=(
-	[arch]="ca-certificates"
+	[archlinux]="ca-certificates"
 	[centos]="ca-certificates"
 	[debian]="ca-certificates"
 	[fedora]="ca-certificates"
 	[opensuse]="ca-certificates"
 	[ubuntu]="ca-certificates"
-	[void]="ca-certificates"
+	[voidlinux]="ca-certificates"
 )
 
 declare -A netbase=(
-	[arch]=""
+	[archlinux]=""
 	[centos]=""
 	[debian]="netbase"
 	[fedora]=""
 	[opensuse]=""
 	[ubuntu]="netbase"
-	[void]="iptables" # Provides /etc/ethertypes
+	[voidlinux]="iptables" # Provides /etc/ethertypes
 )
 
 
 declare -A wget=(
-	[arch]="wget"
+	[archlinux]="wget"
 	[centos]="wget"
 	[debian]="wget"
 	[fedora]="wget"
 	[opensuse]="wget"
 	[ubuntu]="wget"
-	[void]="wget"
+	[voidlinux]="wget"
 )
 
 declare -A tzdata=(
-	[arch]="tzdata"
+	[archlinux]="tzdata"
 	[centos]="tzdata"
 	[debian]="tzdata"
 	[fedora]="tzdata"
 	[opensuse]="timezone"
 	[ubuntu]="tzdata"
-	[void]="tzdata"
+	[voidlinux]="tzdata"
 )
 
 declare -A gnupg=(
-	[arch]="gnupg"
+	[archlinux]="gnupg"
 	[centos]="gnupg"
 	[debian]="gnupg"
 	[fedora]="gnupg"
 	[opensuse]="gpg2"
 	[ubuntu]="gnupg"
-	[void]="gnupg"
+	[voidlinux]="gnupg"
 )
 
 declare -A openssh_client=(
-	[arch]="openssh"
+	[archlinux]="openssh"
 	[centos]="openssh"
 	[debian]="openssh-client"
 	[fedora]="openssh"
 	[opensuse]="openssh"
 	[ubuntu]="openssh-client"
-	[void]="openssh"
+	[voidlinux]="openssh"
 )
 
 declare -A procps=(
-	[arch]="procps-ng"
+	[archlinux]="procps-ng"
 	[centos]="procps-ng"
 	[debian]="procps"
 	[fedora]="procps-ng"
 	[opensuse]="procps"
 	[ubuntu]="procps"
-	[void]="procps-ng"
+	[voidlinux]="procps-ng"
 )
 
 declare -A bzip2=(
-	[arch]="bzip2"
+	[archlinux]="bzip2"
 	[centos]="bzip2"
 	[debian]="bzip2"
 	[fedora]="bzip2"
 	[opensuse]="bzip2"
 	[ubuntu]="bzip2"
-	[void]="bzip2"
+	[voidlinux]="bzip2"
 )
 
 declare -A file=(
-	[arch]="file"
+	[archlinux]="file"
 	[centos]="file"
 	[debian]="file"
 	[fedora]="file"
 	[opensuse]="file"
 	[ubuntu]="file"
-	[void]="file"
+	[voidlinux]="file"
 )
 
 declare -A unzip=(
-	[arch]="unzip"
+	[archlinux]="unzip"
 	[centos]="unzip"
 	[debian]="unzip"
 	[fedora]="unzip"
 	[opensuse]="unzip"
 	[ubuntu]="unzip"
-	[void]="unzip"
+	[voidlinux]="unzip"
 )
 
 declare -A zip=(
-	[arch]="zip"
+	[archlinux]="zip"
 	[centos]="zip"
 	[debian]="zip"
 	[fedora]="zip"
 	[opensuse]="zip"
 	[ubuntu]="zip"
-	[void]="zip"
+	[voidlinux]="zip"
 )
 
 declare -A bash__completion=(
-	[arch]="bash-completion"
+	[archlinux]="bash-completion"
 	[centos]="bash-completion"
 	[debian]="bash-completion"
 	[fedora]="bash-completion"
 	[opensuse]="bash-completion"
 	[ubuntu]="bash-completion"
-	[void]="bash-completion"
+	[voidlinux]="bash-completion"
 )
 
 declare -A htop=(
-	[arch]="htop"
+	[archlinux]="htop"
 	[centos]="htop"
 	[debian]="htop"
 	[fedora]="htop"
 	[opensuse]="htop"
 	[ubuntu]="htop"
-	[void]="htop"
+	[voidlinux]="htop"
 )
 
 declare -A less=(
-	[arch]="less"
+	[archlinux]="less"
 	[centos]="less"
 	[debian]="less"
 	[fedora]="less"
 	[opensuse]="less"
 	[ubuntu]="less"
-	[void]="less"
+	[voidlinux]="less"
 )
 
 declare -A locales=(
-	[arch]=""
+	[archlinux]=""
 	[centos]=""
 	[debian]="locales"
 	[fedora]=""
 	[opensuse]=""
 	[ubuntu]="locales"
-	[void]=""
+	[voidlinux]=""
 ) # Needs review
 
 declare -A man__db=(
-	[arch]="man-db"
+	[archlinux]="man-db"
 	[centos]="man-db"
 	[debian]="man-db"
 	[fedora]="man-db"
 	[opensuse]="man"
 	[ubuntu]="man-db"
-	[void]="man-db"
+	[voidlinux]="man-db"
 )
 
 declare -A nano=(
-	[arch]="nano"
+	[archlinux]="nano"
 	[centos]="nano"
 	[debian]="nano"
 	[fedora]="nano"
 	[opensuse]="nano"
 	[ubuntu]="nano"
-	[void]="nano"
+	[voidlinux]="nano"
 )
 
 declare -A ripgrep=(
-	[arch]="ripgrep"
+	[archlinux]="ripgrep"
 	[centos]="dnf config-manager --add-repo=https://copr.fedorainfracloud.org/coprs/carlwgeorge/ripgrep/repo/epel-7/carlwgeorge-ripgrep-epel-7.repo||ripgrep"
 	[debian]="ripgrep"
 	[fedora]="ripgrep"
 	[opensuse]="ripgrep"
 	[ubuntu]="ripgrep"
-	[void]="ripgrep"
+	[voidlinux]="ripgrep"
 )
 
 declare -A software__properties__common=(
-	[arch]=""
+	[archlinux]=""
 	[centos]=""
 	[debian]="software-properties-common"
 	[fedora]=""
 	[opensuse]=""
 	[ubuntu]="software-properties-common"
-	[void]=""
+	[voidlinux]=""
 )
 
 declare -A sudo=(
-	[arch]="sudo"
+	[archlinux]="sudo"
 	[centos]="sudo"
 	[debian]="sudo"
 	[fedora]="sudo"
 	[opensuse]="sudo"
 	[ubuntu]="sudo"
-	[void]="sudo"
+	[voidlinux]="sudo"
 )
 
 declare -A time=(
-	[arch]="time"
+	[archlinux]="time"
 	[centos]="time"
 	[debian]="time"
 	[fedora]="time"
 	[opensuse]="time"
 	[ubuntu]="time"
-	[void]="time"
+	[voidlinux]="time"
 )
 
 declare -A emacs__nox=(
-	[arch]="emacs-nox"
+	[archlinux]="emacs-nox"
 	[centos]="emacs-nox"
 	[debian]="emacs-nox"
 	[fedora]="emacs-nox"
 	[opensuse]="emacs-nox"
 	[ubuntu]="emacs-nox"
-	[void]="emacs"
+	[voidlinux]="emacs"
 )
 
 declare -A vim=(
-	[arch]="vim"
+	[archlinux]="vim"
 	[centos]="vim-enhanced"
 	[debian]="vim"
 	[fedora]="vim-enhanced"
 	[opensuse]="vim"
 	[ubuntu]="vim"
-	[void]="vim"
+	[voidlinux]="vim"
 )
 
 declare -A multitail=(
-	[arch]="multitail"
+	[archlinux]="multitail"
 	[centos]="multitail"
 	[debian]="multitail"
 	[fedora]="multitail"
 	[opensuse]="multitail"
 	[ubuntu]="multitail"
-	[void]="multitail"
+	[voidlinux]="multitail"
 )
 
 declare -A lsof=(
-	[arch]="lsof"
+	[archlinux]="lsof"
 	[centos]="lsof"
 	[debian]="lsof"
 	[fedora]="lsof"
 	[opensuse]="lsof"
 	[ubuntu]="lsof"
-	[void]="lsof"
+	[voidlinux]="lsof"
 )
 
 declare -A ssl__cert=(
-	[arch]=""
+	[archlinux]=""
 	[centos]=""
 	[debian]="ssl-cert"
 	[fedora]=""
 	[opensuse]=""
 	[ubuntu]="ssl-cert"
-	[void]=""
+	[voidlinux]=""
 )
 
 declare -A fish=(
-	[arch]="fish"
+	[archlinux]="fish"
 	[centos]="fish"
 	[debian]="fish"
 	[fedora]="fish"
 	[opensuse]="fish"
 	[ubuntu]="fish"
-	[void]="fish-shell"
+	[voidlinux]="fish-shell"
 )
 
 declare -A zsh=(
-	[arch]="zsh"
+	[archlinux]="zsh"
 	[centos]="zsh"
 	[debian]="zsh"
 	[fedora]="zsh"
 	[opensuse]="zsh"
 	[ubuntu]="zsh"
-	[void]="zsh"
+	[voidlinux]="zsh"
 )
 
 declare -A patch=(
-	[arch]="patch"
+	[archlinux]="patch"
 	[centos]="patch"
 	[debian]="patch"
 	[fedora]="patch"
 	[opensuse]="patch"
 	[ubuntu]="patch"
-	[void]="patch"
+	[voidlinux]="patch"
 )
 
 declare -A xz_utils=(
-	[arch]="xz"
+	[archlinux]="xz"
 	[centos]="xz"
 	[debian]="xz-utils"
 	[fedora]="xz"
 	[opensuse]="xz"
 	[ubuntu]="xz-utils"
-	[void]="xz"
+	[voidlinux]="xz"
 )
 
 unset GROUP;

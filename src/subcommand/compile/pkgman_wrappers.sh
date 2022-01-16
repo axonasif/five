@@ -27,5 +27,5 @@ function pkgman::archlinux() {
 	pacman -Syy; # Force update the package db
 	pkgman::perform_tasks "${@}"; # Also defines _pkg_names array
 	pacman -S --noconfirm --noprogressbar --needed "${_pkg_names[@]}"; # Install packages
-	pacman -S -cc; # Clean package cache
+	pacman -Scc --noconfirm; # Clean package cache
 }

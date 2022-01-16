@@ -3,73 +3,73 @@
 local GROUP="tools";
 
 declare -A dirmngr=(
-	[arch]="gnupg"
+	[archlinux]="gnupg"
 	[centos]="gnupg2"
 	[debian]="dirmngr"
 	[fedora]="gnupg2"
 	[opensuse]="dirmngr"
 	[ubuntu]="dirmngr"
-	[void]="gnupg"
+	[voidlinux]="gnupg"
 )
 
 declare -A bzr=(
-	[arch]="yay -Sy bzr||"
+	[archlinux]="yay -Sy bzr||"
 	[centos]="" # Review #TODO
 	[debian]="bzr"
 	[fedora]="" # Review #TODO
 	[opensuse]="bzr"
 	[ubuntu]="bzr"
-	[void]="bzr"
+	[voidlinux]="bzr"
 ) # http://wiki.bazaar.canonical.com/DistroDownloads
 
 declare -A git=(
-	[arch]="git"
+	[archlinux]="git"
 	[centos]="git"
 	[debian]="git"
 	[fedora]="git"
 	[opensuse]="git"
 	[ubuntu]="git"
-	[void]="git"
+	[voidlinux]="git"
 )
 
 declare -A git_lfs=(
-	[arch]="git-lfs"
+	[archlinux]="git-lfs"
 	[centos]="git-lfs"
 	[debian]="git-lfs"
 	[fedora]="git-lfs"
 	[opensuse]="git-lfs"
 	[ubuntu]="git-lfs"
-	[void]="git-lfs"
+	[voidlinux]="git-lfs"
 ) # Review `add-apt-repository -y ppa:git-core/ppa && git lfs install --system`
 
 declare -A mercurial=(
-	[arch]="mercurial"
+	[archlinux]="mercurial"
 	[centos]="mercurial"
 	[debian]="mercurial"
 	[fedora]="mercurial"
 	[opensuse]="mercurial"
 	[ubuntu]="mercurial"
-	[void]="mercurial"
+	[voidlinux]="mercurial"
 )
 
 declare -A subversion=(
-	[arch]="subversion"
+	[archlinux]="subversion"
 	[centos]="subversion"
 	[debian]="subversion"
 	[fedora]="subversion"
 	[opensuse]="subversion"
 	[ubuntu]="subversion"
-	[void]="subversion"
+	[voidlinux]="subversion"
 )
 
 declare -A jq=(
-	[arch]="jq"
+	[archlinux]="jq"
 	[centos]="jq"
 	[debian]="jq"
 	[fedora]="jq"
 	[opensuse]="jq"
 	[ubuntu]="jq"
-	[void]="jq"
+	[voidlinux]="jq"
 )
 
 unset GROUP;
