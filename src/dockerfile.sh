@@ -5,9 +5,10 @@ printf 'FROM %s:latest\n' "${_distro_image[$_arg_distro]}";
 ENV LANG=en_US.UTF-8
 
 COPY install-packages /usr/bin/ # What's below is not included in the result dockerfile
-	printf '%s\n' "$(builtin declare -f 'pkgman::perform_tasks')" \
+	printf '%s\n' '#!/bin/bash' "$(builtin declare -f 'pkgman::perform_tasks')" \
 		"$(builtin declare -f "pkgman::$_arg_distro")" \
 		"pkgman::$_arg_distro \"\$@\"" > "$_arg_path/install-packages";
+	chmod 755 "$_arg_path/install-packages";
 
 # _pkg_list comes from src/subcommand/compile/mod.sh
 RUN <<EOF
