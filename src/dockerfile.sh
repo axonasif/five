@@ -3,6 +3,7 @@ printf 'FROM %s:latest\n' "${_distro_image[$_arg_distro]}";
 
 ###### BASE
 ENV LANG=en_US.UTF-8
+ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 COPY install-packages /usr/bin/ # What's below is not included in the result dockerfile
 	printf '%s\n' '#!/bin/bash' "$(builtin declare -f 'pkgman::perform_tasks')" \
